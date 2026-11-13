@@ -57,18 +57,18 @@
   function layout(intro) {
     var m = mq.matches, cw = items[0].offsetWidth || 300;
     items.forEach(function (it, i) {
-      var d = rel(i), a = Math.abs(d), s = d < 0 ? -1 : 1, t, o, dim;
+      var d = rel(i), a = Math.abs(d), s = d < 0 ? -1 : 1, t, o, f;
       if (m) {
-        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; dim = 0; }
-        else if (a === 1) { t = 'translate3d(' + (s * cw * .8) + 'px,0,-180px) rotateY(' + (-s * 32) + 'deg) scale(.82)'; o = .5; dim = .45; }
-        else { t = 'translate3d(' + (s * cw * 1.3) + 'px,0,-400px) rotateY(' + (-s * 40) + 'deg) scale(.7)'; o = 0; dim = .6; }
+        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; f = 'none'; }
+        else if (a === 1) { t = 'translate3d(' + (s * cw * .8) + 'px,0,-180px) rotateY(' + (-s * 32) + 'deg) scale(.82)'; o = .5; f = 'brightness(.55)'; }
+        else { t = 'translate3d(' + (s * cw * 1.3) + 'px,0,-400px) rotateY(' + (-s * 40) + 'deg) scale(.7)'; o = 0; f = 'brightness(.4)'; }
       } else {
-        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; dim = 0; }
-        else if (a === 1) { t = 'translate3d(' + (s * cw * 1.08) + 'px,0,-260px) rotateY(' + (-s * 34) + 'deg) scale(.86)'; o = .62; dim = .45; }
-        else if (a === 2) { t = 'translate3d(' + (s * cw * 1.86) + 'px,0,-520px) rotateY(' + (-s * 44) + 'deg) scale(.74)'; o = .28; dim = .6; }
-        else { t = 'translate3d(0,0,-760px) scale(.6)'; o = 0; dim = .7; }
+        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; f = 'none'; }
+        else if (a === 1) { t = 'translate3d(' + (s * cw * 1.08) + 'px,0,-260px) rotateY(' + (-s * 34) + 'deg) scale(.86)'; o = .62; f = 'brightness(.55) saturate(.8)'; }
+        else if (a === 2) { t = 'translate3d(' + (s * cw * 1.86) + 'px,0,-520px) rotateY(' + (-s * 44) + 'deg) scale(.74)'; o = .28; f = 'brightness(.4) saturate(.6)'; }
+        else { t = 'translate3d(0,0,-760px) scale(.6)'; o = 0; f = 'brightness(.3)'; }
       }
-      it.style.transform = t; it.style.opacity = o; it.style.setProperty('--dim', dim); it.style.zIndex = 10 - a;
+      it.style.transform = t; it.style.opacity = o; it.style.filter = f; it.style.zIndex = 10 - a;
       it.style.setProperty('--sd', intro ? (a * .09) + 's' : '0s');
       it.classList.toggle('is-on', a === 0);
       it.style.visibility = o === 0 ? 'hidden' : '';
