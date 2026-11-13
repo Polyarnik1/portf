@@ -32,11 +32,73 @@
   var current = null, cleanup = null, homeScroll = 0, busy = false, lastPoint = null;
   var baseTitle = document.title;
 
+  /* ---------- появление при прокрутке: общий движок для главной и шести сайтов ---------- */
+  var Motion = (function () {
+    var api = { scan: function () {}, home: function () {}, hold: function () {} };
+    if (reduce || !window.IntersectionObserver || !window.CSS || !CSS.supports('translate', '0 1px')) return api;
+    var holdUntil = 0, siteIO = null, homeDone = false;
+    var UNIT = /^(H1|H2|H3|H4|H5|P|LI|FIGURE|IMG|PICTURE|VIDEO|ARTICLE|BLOCKQUOTE|FORM|DETAILS|TABLE|BUTTON|A|LABEL|DL|ADDRESS)$/;
+    function ownText(el) { for (var n = el.firstChild; n; n = n.nextSibling) if (n.nodeType === 3 && n.nodeValue.trim()) return true; return false; }
+    function split(h) { // слова заголовка в отдельные блоки, разметка внутри сохраняется
+      var w = document.createTreeWalker(h, NodeFilter.SHOW_TEXT), nodes = [], n, i = 0;
+      while ((n = w.nextNode())) if (n.nodeValue.trim()) nodes.push(n);
+      nodes.forEach(function (t) {
+        var f = document.createDocumentFragment();
+        t.nodeValue.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { f.appendChild(document.createTextNode(part)); return; }
+          var sp = document.createElement('span'); sp.className = 'mw'; sp.style.setProperty('--i', Math.min(i++, 16)); sp.textContent = part; f.appendChild(sp);
+        });
+        t.parentNode.replaceChild(f, t);
+      });
+    }
+    function scan(root) {
+      var cache = new WeakMap();
+      function animated(el) { // сам элемент или предок уже анимируется стилями сайта
+        if (!el || el === root) return false;
+        if (cache.has(el)) return cache.get(el);
+        var v = getComputedStyle(el).animationName !== 'none' || animated(el.parentElement); cache.set(el, v); return v;
+      }
+      var io = new IntersectionObserver(function (en) {
+        var inb = en.filter(function (x) { return x.isIntersecting; });
+        inb.sort(function (a, b) { return (a.boundingClientRect.top - b.boundingClientRect.top) || (a.boundingClientRect.left - b.boundingClientRect.left); });
+        var base = Math.max(0, holdUntil - performance.now());
+        inb.forEach(function (x, i) {
+          var el = x.target; io.unobserve(el);
+          el.style.setProperty('--d', Math.round(base + Math.min(i, 7) * 75) + 'ms');
+          el.classList.remove('m-pre');
+          if (el.classList.contains('m-h')) { el.classList.add('m-hgo'); return; }
+          el.classList.add('m-go');
+          el.addEventListener('animationend', function done(e) { if (e.target !== el) return; el.removeEventListener('animationend', done); el.classList.remove('m-go'); });
+        });
+      }, { threshold: .01 });
+      var all = root.querySelectorAll('*');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k], tag = el.tagName, explicit = el.getAttribute('data-mo');
+        if (!explicit && !(UNIT.test(tag) || ownText(el))) continue;
+        if (el.closest('.m-x,nav,svg,[data-nomo],.relief,.deco-grid')) continue;
+        if (!el.offsetWidth && !el.offsetHeight) continue;
+        var cs = getComputedStyle(el);
+        if (cs.display === 'inline' || cs.display === 'contents' || cs.position === 'fixed' || cs.visibility === 'hidden') continue;
+        if (animated(el)) continue;
+        el.classList.add('m-x', 'm-pre');
+        if ((tag === 'H1' || tag === 'H2') && !explicit && !/flex|grid/.test(cs.display) && cs.webkitBackgroundClip !== 'text' && cs.backgroundClip !== 'text') { split(el); el.classList.add('m-h'); }
+        else if (!explicit && (tag === 'IMG' || tag === 'FIGURE' || tag === 'PICTURE' || tag === 'VIDEO')) el.classList.add('m-img');
+        io.observe(el);
+      }
+      return io;
+    }
+    api.scan = function (root) { if (siteIO) { siteIO.disconnect(); siteIO = null; } if (root) siteIO = scan(root); };
+    api.home = function () { if (!homeDone) { homeDone = true; scan(document.getElementById('home')); } };
+    api.hold = function (ms) { holdUntil = performance.now() + ms; };
+    return api;
+  })();
+
   function loadSite(id) {
     return new Promise(function (res, rej) {
       if (PORTF.sites[id]) return res();
       var s = document.createElement('script');
-      s.src = 'sites/' + id + '.js?v=1794577380';
+      s.src = 'sites/' + id + '.js?v=1794578000';
       s.onload = function () { PORTF.sites[id] ? res() : rej(); };
       s.onerror = rej;
       document.head.appendChild(s);
@@ -58,10 +120,12 @@
       jump(0);
       cleanup = def.mount(site) || null;
       current = id;
+      Motion.scan(site);
     } else {
       site.hidden = true; dock.hidden = true; site.innerHTML = ''; styleTag.textContent = '';
       home.hidden = false; document.title = baseTitle; current = null;
       jump(homeScroll);
+      Motion.scan(null); Motion.home();
     }
     Star.setActive(!id); Relief.setActive(!id);
   }
@@ -79,6 +143,7 @@
     if (id) veilName.textContent = m.name; else veilName.innerHTML = '<img src="assets/logo.png" alt="Полярник">';
     veil.className = 'veil on';
     Promise.all([ready, wait(820)]).then(function () {
+      Motion.hold(330);
       swap(id);
       return wait(180);
     }).catch(function () { location.hash = ''; }).then(function () {
@@ -351,5 +416,23 @@
     });
   })();
 
+  /* первый экран мягко уходит при прокрутке */
+  (function () {
+    if (reduce) return;
+    var hero = $('.hero'), hc = $('.hero-copy'), hs = $('.hero-stage'), pend = 0, H = 0;
+    if (!hero || !hc || !hs) return;
+    function apply() {
+      pend = 0; if (current) return;
+      if (!H) H = hero.offsetHeight || 1;
+      var p = Math.max(0, Math.min(1, scrollY / (H * .85)));
+      hc.style.opacity = (1 - p * 1.15).toFixed(3); hc.style.translate = '0 ' + (-p * 60).toFixed(1) + 'px';
+      hs.style.opacity = (1 - p).toFixed(3); hs.style.scale = (1 - p * .12).toFixed(4);
+    }
+    addEventListener('scroll', function () { if (!pend && !current && scrollY < H * 1.2 + 200) pend = requestAnimationFrame(apply); }, { passive: true });
+    addEventListener('resize', function () { H = 0; });
+    H = hero.offsetHeight;
+  })();
+
   route(true);
+  if (!META[location.hash.replace('#', '')]) Motion.home();
 })();
