@@ -9,7 +9,7 @@
   var META = {
     coffee:    { name: 'Зерно и пар', bg: '#1d3a2b', ink: '#f3e6d0', font: "400 1em 'Yeseva One',Georgia,serif" },
     barber:    { name: 'ОСТРИЁ',      bg: '#e9e1cf', ink: '#15130f', font: "700 1em 'Oswald',Impact,sans-serif" },
-    tattoo:    { name: 'Тушь',        bg: '#f2efe8', ink: '#111111', font: "italic 500 1.2em 'Cormorant Garamond',Georgia,serif" },
+    tattoo:    { name: 'Тушь',        bg: '#090909', ink: '#e9e3d7', font: "italic 500 1.2em 'Cormorant Garamond',Georgia,serif" },
     detailing: { name: 'ГЛЯНЕЦ',      bg: '#07090c', ink: '#46d6ff', font: "700 1em 'Tektur',sans-serif" },
     photo:     { name: 'Выдержка',    bg: '#fafaf7', ink: '#111111', font: "300 1em 'Jost',sans-serif" },
     estate:    { name: 'Высота',      bg: '#10291f', ink: '#ebe7de', font: "400 1em 'Tenor Sans',Georgia,serif" }
@@ -75,7 +75,8 @@
     var p = lastPoint || { x: innerWidth / 2, y: innerHeight / 2 }; lastPoint = null;
     veil.style.setProperty('--vx', p.x + 'px'); veil.style.setProperty('--vy', p.y + 'px');
     veil.style.setProperty('--vbg', m.bg); veil.style.setProperty('--vink', m.ink);
-    veilName.style.font = m.font; veilName.style.fontSize = 'clamp(2.4rem,10vw,7rem)'; veilName.textContent = m.name;
+    veilName.style.font = m.font; veilName.style.fontSize = 'clamp(2.4rem,10vw,7rem)';
+    if (id) veilName.textContent = m.name; else veilName.innerHTML = '<img src="assets/logo.png" alt="Полярник">';
     veil.className = 'veil on';
     Promise.all([ready, wait(820)]).then(function () {
       swap(id);

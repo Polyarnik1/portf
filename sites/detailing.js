@@ -23,6 +23,7 @@ css: `
 .d-paint{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--mute)}
 .d-paint button{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:var(--c);transition:.2s}
 .d-paint button[aria-pressed=true]{border-color:var(--ice);box-shadow:0 0 14px rgba(70,214,255,.7);transform:scale(1.1)}
+.d-nogl{background:url(img/detailing/polish-hood.webp) center/cover;border:1px solid var(--line)}.d-nogl canvas,.d-nogl .d-hint{display:none}
 .d-hint{position:absolute;right:0;bottom:0;font-size:13px;color:var(--mute)}
 .d-nums{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .d-nums div{padding:26px 20px 26px 0;border-right:1px solid var(--line);padding-left:20px}
@@ -32,6 +33,8 @@ css: `
 .d-sec{padding-top:clamp(52px,8vw,104px);padding-bottom:clamp(20px,3vw,40px)}
 .d-sec h2{font-size:clamp(1.6rem,4vw,2.8rem);margin-bottom:28px}
 .d-svc{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.d-svc img{display:block;width:calc(100% + 52px);max-width:none;margin:-26px -26px 8px;aspect-ratio:16/10;object-fit:cover;filter:saturate(.75) contrast(1.05);transition:filter .4s,transform .6s}
+.d-svc article:hover img{filter:none;transform:scale(1.03)}
 .d-svc article{background:var(--bg);padding:26px;display:grid;gap:10px;align-content:start;transition:background .3s;position:relative;overflow:hidden}
 .d-svc article::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.07) 48%,transparent 56%);transform:translateX(-100%);transition:transform .7s}
 .d-svc article:hover{background:var(--panel)}.d-svc article:hover::after{transform:translateX(100%)}
@@ -58,10 +61,10 @@ html: `
     <h1>Блеск, которого не было даже в&nbsp;салоне</h1>
     <p>Полируем кузов, наносим керамику, чистим салон до состояния нового автомобиля. Сдвиньте ползунок и посмотрите на разницу.</p>
     <div class="d-ctl">
-      <div><label for="d-gloss">Кузов <b id="d-gloss-v">после керамики</b></label><input type="range" id="d-gloss" min="0" max="100" value="100"></div>
+      <div><label for="d-gloss">Мойка и покрытие <b id="d-gloss-v">после керамики</b></label><input type="range" id="d-gloss" min="0" max="100" value="100"></div>
       <div class="d-paint"><span>Цвет</span>
-        <button style="--c:#0b0d10" data-c="0b0d10" aria-label="Чёрный" aria-pressed="true"></button>
-        <button style="--c:#0c3c8a" data-c="0a2f78" aria-label="Синий" aria-pressed="false"></button>
+        <button style="--c:#24364c" data-c="1b2a3c" aria-label="Графит" aria-pressed="true"></button>
+        <button style="--c:#0b0d10" data-c="0b0d10" aria-label="Чёрный" aria-pressed="false"></button>
         <button style="--c:#9c1420" data-c="8a0f1a" aria-label="Красный" aria-pressed="false"></button>
         <button style="--c:#d9dde0" data-c="c9ced2" aria-label="Серебристый" aria-pressed="false"></button>
       </div>
@@ -78,12 +81,12 @@ html: `
 <section class="wrap d-sec">
   <h2>Что делаем</h2>
   <div class="d-svc">
-    <article><h3>Полировка кузова</h3><p>Убираем паутинку, мелкие царапины и голограммы в два или три этапа.</p><em>от 18 000 ₽</em></article>
-    <article><h3>Керамическое покрытие</h3><p>Защищает лак от реагентов и ультрафиолета, машина дольше остаётся чистой.</p><em>от 32 000 ₽</em></article>
-    <article><h3>Антигравийная плёнка</h3><p>Полиуретан на капот, бампер, фары и зоны риска. Сколы остаются на плёнке.</p><em>от 45 000 ₽</em></article>
-    <article><h3>Химчистка салона</h3><p>Сиденья, потолок, ковры, багажник. Сушим и обрабатываем кожу кондиционером.</p><em>от 12 000 ₽</em></article>
-    <article><h3>Детейлинг-мойка</h3><p>Трёхфазная мойка, очистка дисков и арок, сушка воздухом без разводов.</p><em>от 3 500 ₽</em></article>
-    <article><h3>Подготовка к продаже</h3><p>Лёгкая полировка, салон, моторный отсек. Машина выглядит на свою цену.</p><em>от 15 000 ₽</em></article>
+    <article><img src="img/detailing/polish.webp" alt="Полировка кузова" width="800" height="530" loading="lazy" decoding="async"><h3>Полировка кузова</h3><p>Убираем паутинку, мелкие царапины и голограммы в два или три этапа.</p><em>от 18 000 ₽</em></article>
+    <article><img src="img/detailing/polish-hood.webp" alt="Керамическое покрытие" width="800" height="530" loading="lazy" decoding="async"><h3>Керамическое покрытие</h3><p>Защищает лак от реагентов и ультрафиолета, машина дольше остаётся чистой.</p><em>от 32 000 ₽</em></article>
+    <article><img src="img/detailing/foam-bay.webp" alt="Детейлинг-мойка" width="800" height="530" loading="lazy" decoding="async"><h3>Детейлинг-мойка</h3><p>Трёхфазная мойка, очистка дисков и арок, сушка воздухом без разводов.</p><em>от 3 500 ₽</em></article>
+    <article><img src="img/detailing/seat-clean.webp" alt="Химчистка сидений" width="800" height="530" loading="lazy" decoding="async"><h3>Химчистка сидений</h3><p>Экстрактор вытягивает грязь из ткани, сушим тёплым воздухом.</p><em>от 12 000 ₽</em></article>
+    <article><img src="img/detailing/interior-spray.webp" alt="Уход за пластиком и кожей" width="800" height="530" loading="lazy" decoding="async"><h3>Уход за пластиком и кожей</h3><p>Чистим, матируем пластик, питаем кожу кондиционером.</p><em>от 6 000 ₽</em></article>
+    <article><img src="img/detailing/carpet-split.webp" alt="Чистка ковров и багажника" width="800" height="530" loading="lazy" decoding="async"><h3>Чистка ковров и багажника</h3><p>Разница видна сразу: половина до, половина после.</p><em>от 4 500 ₽</em></article>
   </div>
 </section>
 <section class="wrap d-sec">
@@ -112,98 +115,71 @@ mount: function (root) {
   calc();
   root.querySelector('#d-order').onclick = function () { this.textContent = 'Записали. Это демо'; };
 
-  /* ----- 3D ----- */
-  var T = window.THREE, canvas = root.querySelector('canvas'), gloss = root.querySelector('#d-gloss'), glossV = root.querySelector('#d-gloss-v');
-  if (!T) return;
-  var renderer; try { renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true }); } catch (e) { return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, PORTF.touch ? 1.75 : 2));
-  renderer.outputEncoding = T.sRGBEncoding; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.15;
-  var scene = new T.Scene(), cam = new T.PerspectiveCamera(30, 1.25, .1, 60);
-  cam.position.set(0, 2.1, 10.6); cam.lookAt(0, .55, 0);
+  /* ----- 3D: процедурная модель купе из модуля car/ (three r178, грузится только здесь) ----- */
+  var canvas = root.querySelector('canvas'), gloss = root.querySelector('#d-gloss'), glossV = root.querySelector('#d-gloss-v'), stage = root.querySelector('.d-stage');
+  var dead = false, dispose3d = null;
+  function fallback() { stage.classList.add('d-nogl'); }
+  var load;
+  try { load = Promise.all([import('three'), import(new URL('car/js/car.js', document.baseURI).href)]); }
+  catch (e) { load = Promise.reject(e); }
+  load.then(function (mods) {
+    if (dead) return;
+    var T = mods[0], C = mods[1], renderer;
+    try { renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: 'high-performance' }); } catch (e) { return fallback(); }
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, PORTF.touch ? 1.5 : 2));
+    renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.2;
+    var scene = new T.Scene(), cam = new T.PerspectiveCamera(30, 1.25, .1, 60);
+    cam.position.set(0, 1.75, 9.8); cam.lookAt(0, .55, 0);
+    var pm = new T.PMREMGenerator(renderer), envRT = pm.fromScene(C.studioEnvScene({ dark: true, warm: 0x46d6ff, cool: 0xbfe6ff }), .02);
+    scene.environment = envRT.texture; pm.dispose();
+    var car = C.buildCar({ paint: 0x1b2a3c, accent: 0x46d6ff, metalness: .55, roughness: .16, envPaint: 1.5, envGlass: 1.3, detail: PORTF.touch ? 'low' : 'high', lightBoost: 2.4, plate: 'ГЛЯНЕЦ' });
+    var rig = new T.Group(); rig.add(car.root); scene.add(rig);
+    var U = car.uniforms; U.uDirt.value = 1; U.uCleanDir.value = 1;
+    var floor = new T.Mesh(new T.CircleGeometry(3.3, 72), new T.MeshBasicMaterial({ color: 0x0a0f14 })); floor.rotation.x = -Math.PI / 2; floor.position.y = -.002; scene.add(floor);
+    var ring = new T.Mesh(new T.TorusGeometry(3.3, .012, 6, 160), new T.MeshBasicMaterial({ color: 0x46d6ff })); ring.rotation.x = Math.PI / 2; ring.position.y = .01; scene.add(ring);
+    scene.add(new T.HemisphereLight(0xcfeaff, 0x05070a, .35));
+    var key = new T.DirectionalLight(0xffffff, .6); key.position.set(3, 6, 4); scene.add(key);
 
-  // студия: софтбоксы на чёрном, от них блики на лаке
-  var ec = document.createElement('canvas'); ec.width = 1024; ec.height = 512; var e2 = ec.getContext('2d');
-  e2.fillStyle = '#020304'; e2.fillRect(0, 0, 1024, 512);
-  function box(x, y, w, h, c, blur) { e2.save(); e2.filter = 'blur(' + blur + 'px)'; e2.fillStyle = c; e2.fillRect(x, y, w, h); e2.restore(); }
-  box(90, 110, 240, 16, '#e6eef2', 4); box(600, 100, 260, 14, '#e6eef2', 4); box(430, 30, 90, 10, '#6fc8ee', 6); box(0, 150, 1024, 10, '#bfefff', 3);
-  box(230, 190, 120, 70, '#eaf8ff', 14); box(720, 200, 150, 60, '#46d6ff', 18); box(0, 330, 1024, 182, '#0a1016', 0);
-  var pm = new T.PMREMGenerator(renderer), envTex = new T.CanvasTexture(ec); envTex.mapping = T.EquirectangularReflectionMapping;
-  var env = pm.fromEquirectangular(envTex).texture; scene.environment = env; envTex.dispose(); pm.dispose();
+    function applyGloss() {
+      var t = gloss.value / 100;
+      U.uClean.value = 2.6 - 5.2 * t; U.uBeads.value = t > .97 ? .5 : 0;
+      glossV.textContent = t > .97 ? 'после керамики' : t > .03 ? 'в работе' : 'до мойки';
+    }
+    gloss.addEventListener('input', applyGloss);
+    root.querySelectorAll('.d-paint button').forEach(function (b) {
+      b.onclick = function () { root.querySelectorAll('.d-paint button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); car.setPaint('#' + b.dataset.c); kick(); };
+    });
+    applyGloss();
 
-  var car = new T.Group(); scene.add(car);
-  var paint = new T.MeshPhysicalMaterial({ color: 0x0b0d10, metalness: .55, roughness: .12, clearcoat: 1, clearcoatRoughness: .03, envMapIntensity: 1.3 });
-  var glass = new T.MeshPhysicalMaterial({ color: 0x05070a, metalness: .9, roughness: .04, clearcoat: 1, envMapIntensity: 1.8 });
-  var ext = function (shape, depth, bevel) { var g = new T.ExtrudeGeometry(shape, { depth: depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 6, curveSegments: 28 }); g.translate(0, 0, -depth / 2); return g; };
+    function resize() { var w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.position.z = w / h < 1.1 ? 12.4 : 9.8; cam.updateProjectionMatrix(); kick(); }
+    var ro = window.ResizeObserver ? new ResizeObserver(resize) : null; if (ro) ro.observe(canvas);
 
-  var s = new T.Shape();
-  s.moveTo(-2.12, .3); s.lineTo(-2.2, .58); s.quadraticCurveTo(-2.2, .84, -1.95, .88);
-  s.lineTo(-1.3, .93); s.lineTo(.95, .9); s.bezierCurveTo(1.5, .86, 1.95, .76, 2.14, .64);
-  s.quadraticCurveTo(2.24, .52, 2.2, .3); s.lineTo(1.78, .3); s.absarc(1.38, .3, .4, 0, Math.PI, false);
-  s.lineTo(-.95, .3); s.absarc(-1.35, .3, .4, 0, Math.PI, false); s.lineTo(-2.12, .3);
-  car.add(new T.Mesh(ext(s, 1.56, .12), paint));
+    var rot = -.7, vel = .003, drag = false, lx = 0, raf = 0, vis = true, last = 0;
+    canvas.addEventListener('pointerdown', function (e) { drag = true; lx = e.clientX; try { canvas.setPointerCapture(e.pointerId); } catch (x) {} kick(); });
+    canvas.addEventListener('pointermove', function (e) { if (!drag) return; vel = (e.clientX - lx) * .008; rot += vel; lx = e.clientX; });
+    function up() { drag = false; } canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
+    function frame(t) {
+      raf = 0; if (dead || !vis || document.hidden) return;
+      var dt = Math.min(50, t - last || 16) / 16.67; last = t;
+      if (!drag) { rot += vel * dt; vel += (.003 - vel) * .03 * dt; }
+      rig.rotation.y = rot; car.update(t / 1000); renderer.render(scene, cam);
+      if (!PORTF.reduce || drag) raf = requestAnimationFrame(frame);
+    }
+    function kick() { if (!raf && !dead) { last = 0; raf = requestAnimationFrame(frame); } }
+    var io = window.IntersectionObserver ? new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }) : null; if (io) io.observe(canvas);
+    document.addEventListener('visibilitychange', kick);
+    gloss.addEventListener('input', kick);
+    resize(); kick();
+    dispose3d = function () {
+      cancelAnimationFrame(raf); if (ro) ro.disconnect(); if (io) io.disconnect(); document.removeEventListener('visibilitychange', kick);
+      scene.traverse(function (o) {
+        if (o.geometry) o.geometry.dispose();
+        [].concat(o.material || []).forEach(function (m) { for (var k in m) if (m[k] && m[k].isTexture) m[k].dispose(); m.dispose(); });
+      });
+      envRT.dispose(); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {}
+    };
+  }).catch(fallback);
 
-  var c = new T.Shape();
-  c.moveTo(-1.42, .9); c.bezierCurveTo(-1.0, 1.24, -.55, 1.36, -.1, 1.36); c.bezierCurveTo(.3, 1.36, .62, 1.16, .98, .88); c.lineTo(-1.42, .9);
-  car.add(new T.Mesh(ext(c, 1.26, .1), glass));
-  // крыша в цвет кузова поверх остекления
-  var r = new T.Shape();
-  r.moveTo(-.95, 1.3); r.bezierCurveTo(-.6, 1.4, -.3, 1.41, -.1, 1.41); r.bezierCurveTo(.1, 1.41, .25, 1.36, .38, 1.3); r.lineTo(-.95, 1.3);
-  var roof = new T.Mesh(ext(r, 1.2, .1), paint); roof.position.y = -.035; car.add(roof);
-
-  var tire = new T.MeshStandardMaterial({ color: 0x08090a, roughness: .85 }), rim = new T.MeshStandardMaterial({ color: 0xcfd6dc, metalness: 1, roughness: .18, envMapIntensity: 1.6 });
-  var tg = new T.CylinderGeometry(.36, .36, .3, 40), rg = new T.CylinderGeometry(.23, .23, .32, 10), hg = new T.CylinderGeometry(.07, .07, .34, 16);
-  [[1.38, .88], [1.38, -.88], [-1.35, .88], [-1.35, -.88]].forEach(function (p) {
-    var w = new T.Group(); w.position.set(p[0], .36, p[1]); w.rotation.x = Math.PI / 2;
-    w.add(new T.Mesh(tg, tire), new T.Mesh(rg, rim), new T.Mesh(hg, tire)); car.add(w);
-  });
-  var lampF = new T.Mesh(new T.BoxGeometry(.05, .07, 1.5), new T.MeshBasicMaterial({ color: 0xe8fbff })); lampF.position.set(2.2, .62, 0); car.add(lampF);
-  var lampR = new T.Mesh(new T.BoxGeometry(.05, .06, 1.6), new T.MeshBasicMaterial({ color: 0xff2a2a })); lampR.position.set(-2.24, .72, 0); car.add(lampR);
-
-  var floor = new T.Mesh(new T.CircleGeometry(3.25, 72), new T.MeshStandardMaterial({ color: 0x06090c, metalness: .85, roughness: .42, envMapIntensity: .3 })); floor.rotation.x = -Math.PI / 2; scene.add(floor);
-  var ring = new T.Mesh(new T.TorusGeometry(3.25, .012, 6, 160), new T.MeshBasicMaterial({ color: 0x46d6ff })); ring.rotation.x = Math.PI / 2; ring.position.y = .01; scene.add(ring);
-  var shadow = new T.Mesh(new T.PlaneGeometry(5.4, 2.6), new T.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: .75, alphaMap: (function () { var k = document.createElement('canvas'); k.width = k.height = 128; var x = k.getContext('2d'), g = x.createRadialGradient(64, 64, 10, 64, 64, 64); g.addColorStop(0, '#fff'); g.addColorStop(1, '#000'); x.fillStyle = g; x.fillRect(0, 0, 128, 128); return new T.CanvasTexture(k); })() }));
-  shadow.rotation.x = -Math.PI / 2; shadow.position.y = .02; car.add(shadow);
-  scene.add(new T.HemisphereLight(0xcfeaff, 0x05070a, .25));
-  var key = new T.DirectionalLight(0xffffff, .45); key.position.set(3, 6, 4); scene.add(key);
-
-  var clean = new T.Color(0x0b0d10), dull = new T.Color();
-  function applyGloss() {
-    var t = gloss.value / 100;
-    paint.roughness = .72 - .6 * t; paint.clearcoat = t; paint.envMapIntensity = .3 + 1.0 * t; paint.metalness = .25 + .3 * t;
-    dull.copy(clean).lerp(new T.Color(0x6b6f72), .35); paint.color.copy(dull).lerp(clean, t);
-    glossV.textContent = t > .8 ? 'после керамики' : t > .4 ? 'после полировки' : 'до обработки';
-  }
-  gloss.addEventListener('input', applyGloss);
-  root.querySelectorAll('.d-paint button').forEach(function (b) {
-    b.onclick = function () { root.querySelectorAll('.d-paint button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); clean.set('#' + b.dataset.c); applyGloss(); };
-  });
-  applyGloss();
-
-  function resize() { var w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.position.z = w / h < 1.1 ? 12 : 10.6; cam.updateProjectionMatrix(); }
-  var ro = window.ResizeObserver ? new ResizeObserver(resize) : null; if (ro) ro.observe(canvas); resize();
-
-  var rot = -.65, vel = .003, drag = false, lx = 0, raf = 0, alive = true, vis = true, last = 0;
-  canvas.addEventListener('pointerdown', function (e) { drag = true; lx = e.clientX; try { canvas.setPointerCapture(e.pointerId); } catch (x) {} });
-  canvas.addEventListener('pointermove', function (e) { if (!drag) return; vel = (e.clientX - lx) * .008; rot += vel; lx = e.clientX; });
-  function up() { drag = false; } canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
-  function frame(t) {
-    raf = 0; if (!alive || !vis || document.hidden) return;
-    var dt = Math.min(50, t - last || 16) / 16.67; last = t;
-    if (!drag) { rot += vel * dt; vel += (.003 - vel) * .03 * dt; }
-    car.rotation.y = rot; renderer.render(scene, cam);
-    if (!PORTF.reduce || drag) raf = requestAnimationFrame(frame);
-  }
-  function kick() { if (!raf && alive) { last = 0; raf = requestAnimationFrame(frame); } }
-  var io = window.IntersectionObserver ? new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }) : null; if (io) io.observe(canvas);
-  document.addEventListener('visibilitychange', kick);
-  if (PORTF.reduce) { gloss.addEventListener('input', kick); canvas.addEventListener('pointermove', kick); root.querySelector('.d-paint').addEventListener('click', kick); }
-  kick();
-
-  return function () {
-    alive = false; cancelAnimationFrame(raf); if (ro) ro.disconnect(); if (io) io.disconnect();
-    document.removeEventListener('visibilitychange', kick);
-    scene.traverse(function (o) { if (o.geometry) o.geometry.dispose(); if (o.material) { if (o.material.alphaMap) o.material.alphaMap.dispose(); o.material.dispose(); } });
-    env.dispose(); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {}
-  };
+  return function () { dead = true; if (dispose3d) dispose3d(); };
 }
 });

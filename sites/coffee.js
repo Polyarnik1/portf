@@ -30,7 +30,16 @@ css: `
 .c-tape div{display:inline-block;animation:c-tape 30s linear infinite}
 .c-tape span{margin:0 22px}.c-tape span::after{content:"";display:inline-block;width:10px;height:14px;margin-left:44px;border-radius:50%;background:var(--bean);transform:rotate(25deg)}
 @keyframes c-tape{to{transform:translateX(-50%)}}
-.c-menu{background:var(--foam);color:var(--bean);padding:clamp(56px,9vw,110px) 0;margin-top:-12px}
+.c-shots{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:repeat(2,clamp(130px,17vw,230px));gap:12px;padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(48px,7vw,90px)}
+.c-shots figure{margin:0;border-radius:20px;overflow:hidden;position:relative}
+.c-shots figure:first-child{grid-row:span 2}
+.c-shots figure:last-child{grid-column:span 2}
+.c-shots img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.c-shots figure:hover img{transform:scale(1.05)}
+.c-shots figcaption{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:var(--leaf);color:var(--crema);font-size:13.5px}
+.c-card-pic{margin:calc(-1*clamp(22px,3vw,34px));margin-bottom:0;height:150px;overflow:hidden;border-radius:20px 20px 0 0}
+.c-card-pic img{display:block;width:100%;height:100%;object-fit:cover}
+.c-menu{background:var(--foam);color:var(--bean);padding:clamp(56px,9vw,110px) 0}
 .c-menu h2,.c-bean h2,.c-visit h2{font-size:clamp(1.9rem,4.6vw,3.4rem);margin-bottom:26px}
 .c-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
 .c-tabs button{padding:10px 18px;border-radius:999px;border:1.5px solid var(--bean);font-weight:600;font-size:15px;transition:.2s}
@@ -63,7 +72,7 @@ css: `
 .c-visit dt{font-size:14px;opacity:.6}.c-visit dd{margin:0;font-size:1.15rem}
 .c-foot{padding:26px 0 10px;font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;opacity:.85}
 .c-foot a{color:var(--crema)}
-@media(max-width:800px){.c-hero,.c-bean-grid,.c-visit-grid{grid-template-columns:1fr}.c-cup{width:min(74vw,320px);order:-1}.c-list{grid-template-columns:1fr}.c-open span{display:none}}
+@media(max-width:800px){.c-hero,.c-bean-grid,.c-visit-grid{grid-template-columns:1fr}.c-cup{width:min(74vw,320px);order:-1}.c-list{grid-template-columns:1fr}.c-shots{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:42vw}.c-shots figure:first-child{grid-row:span 2}.c-shots figure:last-child{grid-column:span 2}.c-open span{display:none}}
 `,
 html: `
 <header class="wrap c-top"><span class="c-logo">Зерно и пар</span><span class="c-open"><b>Открыто</b><span> сегодня до 22:00</span></span></header>
@@ -79,6 +88,12 @@ html: `
   </div>
 </section>
 <div class="c-tape" aria-hidden="true"><div>${'<span>эспрессо</span><span>воронка</span><span>флэт уайт</span><span>свежая обжарка</span><span>круассаны</span><span>колд брю</span>'.repeat(4)}</div></div>
+<section class="wrap c-shots">
+  <figure><img src="img/coffee/c1.webp" alt="Две чашки капучино с латте-артом" width="900" height="1350" loading="lazy" decoding="async"><figcaption>Капучино на свежей обжарке</figcaption></figure>
+  <figure><img src="img/coffee/c5.webp" alt="Бариста заваривает кофе в воронке" width="900" height="600" loading="lazy" decoding="async"><figcaption>Воронка</figcaption></figure>
+  <figure><img src="img/coffee/c4.webp" alt="Свежий круассан" width="900" height="720" loading="lazy" decoding="async"><figcaption>Круассаны утром</figcaption></figure>
+  <figure><img src="img/coffee/c2.webp" alt="Зал кофейни с деревянными столами" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Зал на сорок мест</figcaption></figure>
+</section>
 <section class="c-menu" id="c-menu"><div class="wrap">
   <h2>Меню</h2>
   <div class="c-tabs" role="tablist" aria-label="Разделы меню"></div>
@@ -97,7 +112,7 @@ html: `
     <dl><div><dt>Адрес</dt><dd>ул. Тёплая, 12, вход со двора</dd></div><div><dt>Часы</dt><dd>Будни 8:00–22:00, выходные 9:00–23:00</dd></div></dl>
     <dl><div><dt>Обжарка</dt><dd>По четвергам, можно посмотреть</dd></div><div><dt>С собой</dt><dd>Скидка 10% в свою кружку</dd></div></dl>
   </div>
-  <div class="c-foot"><span>Демо-сайт кофейни. Заведение вымышленное.</span><a href="#barber">Следующее демо: барбершоп «Остриё»</a></div>
+  <div class="c-foot"><span>Демо-сайт кофейни. Заведение вымышленное. Фото: Unsplash.</span><a href="#barber">Следующее демо: барбершоп «Остриё»</a></div>
 </div></section>
 `,
 mount: function (root) {
@@ -121,7 +136,7 @@ mount: function (root) {
     { n: 'Бразилия Серрадо', s: 'Для эспрессо и молока', notes: ['шоколад', 'фундук', 'ириска'], v: [3, 7, 9], h: '1 100 м', sort: 'Катуаи', price: '690 ₽ за 250 г' }
   ];
   var ori = root.querySelector('#c-origins'), card = root.querySelector('#c-card');
-  card.innerHTML = '<h3></h3><div class="c-notes"></div><div class="c-bars">' + ['Кислотность', 'Сладость', 'Тело'].map(function (l) { return '<div><span>' + l + '</span><i style="--v:0"></i><span></span></div>'; }).join('') + '</div><div class="c-facts"></div>';
+  card.innerHTML = '<div class="c-card-pic"><img src="img/coffee/c3.webp" alt="Обжаренные кофейные зёрна" width="900" height="686" loading="lazy" decoding="async"></div><h3></h3><div class="c-notes"></div><div class="c-bars">' + ['Кислотность', 'Сладость', 'Тело'].map(function (l) { return '<div><span>' + l + '</span><i style="--v:0"></i><span></span></div>'; }).join('') + '</div><div class="c-facts"></div>';
   function bean(i) {
     var b = BEANS[i];
     ori.querySelectorAll('button').forEach(function (x, j) { x.setAttribute('aria-pressed', j === i); });

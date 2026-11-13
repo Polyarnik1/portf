@@ -29,7 +29,7 @@ a{color:inherit}
 .nav{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;align-items:center;gap:24px;padding:14px var(--gut);transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
 .nav.stuck{background:rgba(0,0,0,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:var(--line)}
 .brand{display:flex;align-items:center;gap:10px;font:700 15px/1 var(--f-display);letter-spacing:.01em}
-.brand svg{width:22px;height:22px;fill:var(--orange);filter:drop-shadow(0 0 8px rgba(217,119,87,.8))}
+.brand img{height:34px;width:auto;display:block;filter:drop-shadow(0 0 14px rgba(217,119,87,.55))}
 .nav-links{display:flex;gap:28px;margin-left:auto;font-size:15px;color:var(--fog)}
 .nav-links button{padding:6px 0;transition:color .2s}
 .nav-links button:hover{color:var(--snow)}
@@ -133,9 +133,12 @@ a{color:inherit}
 .p-barber .p-art{inset:22px auto 42% 22px;width:34px;border-radius:17px;border:3px solid #15130f;background:repeating-linear-gradient(-45deg,#c2311d 0 12px,#f6f1e4 12px 24px,#1e3a5f 24px 36px,#f6f1e4 36px 48px);background-size:68px 68px;animation:pole 2.4s linear infinite}
 @keyframes pole{to{background-position:0 -68px}}
 
-.p-tattoo{background:#f2efe8;color:#111;--pglow:rgba(0,0,0,.45);--pchip:#c8102e}
+.p-tattoo{background:#090909;color:#e9e3d7;--pglow:rgba(209,22,47,.5);--pchip:#d1162f;border:1px solid #2a2725}
 .p-tattoo .p-name{font:italic 500 clamp(2.4rem,4.6vw,3.6rem)/.9 'Cormorant Garamond',Georgia,serif}
-.p-tattoo .p-art{display:grid;place-items:center;padding:14% 14% 34%}
+.p-tattoo .p-art{display:grid;place-items:center;padding:14% 14% 34%;background:linear-gradient(rgba(9,9,9,.55),#090909 78%),url(../img/tattoo/w2.webp) center 30%/cover}
+.p-barber{background-image:linear-gradient(rgba(233,225,207,.2),#e9e1cf 72%),url(../img/barber/g3.webp);background-size:cover;background-position:center}
+.p-coffee .p-art{background:linear-gradient(rgba(29,58,43,.72),#1d3a2b 80%),url(../img/coffee/c3.webp) center/cover}
+.p-estate .p-art{background:linear-gradient(rgba(16,41,31,.86),#10291f 80%),url(../img/estate/f1.webp) center/cover}
 .p-tattoo .p-art svg{width:100%;animation:drift 50s linear infinite}
 
 .p-detailing{background:#07090c;color:#eaf6fb;--pglow:rgba(70,214,255,.5);--pchip:#46d6ff;--pchipink:#04121a;border:1px solid #16202a}
@@ -146,10 +149,10 @@ a{color:inherit}
 .p-photo{background:#fafaf7;color:#111;--pglow:rgba(255,183,0,.6);--pchip:#ffb700;--pchipink:#111}
 .p-photo .p-name{font:300 clamp(1.9rem,3.6vw,2.9rem)/1 'Jost',sans-serif;letter-spacing:-.02em}
 .p-photo .p-art{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;padding:22px 22px 40%}
-.p-photo .p-art i{border-radius:3px;background:radial-gradient(circle at 30% 30%,#ffcf6b,#e2552d 45%,#3b1e3f)}
+.p-photo .p-art i{border-radius:3px;background:url(../img/photo/s1.webp) center 20%/cover}
 .p-photo .p-art i:nth-child(1){grid-row:1/3}
-.p-photo .p-art i:nth-child(2){background:radial-gradient(circle at 70% 60%,#bfe3ff,#3a6ea5 50%,#0f1c2e)}
-.p-photo .p-art i:nth-child(3){background:linear-gradient(160deg,#111 40%,#555)}
+.p-photo .p-art i:nth-child(2){background-image:url(../img/photo/s4.webp)}
+.p-photo .p-art i:nth-child(3){background-image:url(../img/photo/s5.webp)}
 
 .p-estate{background:#10291f;color:#ebe7de;--pglow:rgba(176,141,87,.55);--pchip:#b08d57;--pchipink:#10291f}
 .p-estate .p-name{font:400 clamp(1.9rem,3.6vw,2.8rem)/1 'Tenor Sans',Georgia,serif;letter-spacing:.02em}
@@ -169,6 +172,10 @@ a{color:inherit}
 .contact>*:not(.contact-glow){position:relative}
 .contact p{color:var(--fog);max-width:30em}
 .contact-alt{font-size:14px}
+.contact-logo{width:min(360px,62vw);height:auto;filter:drop-shadow(0 0 40px rgba(255,143,90,.7))}
+.foot-brand{display:flex;align-items:center;gap:12px}.foot-brand img{height:22px;width:auto;opacity:.85}
+.dock-note img{height:13px;width:auto;vertical-align:-1px;margin-left:3px}
+.veil span img{height:clamp(4.5rem,18vw,11rem);width:auto;display:block;filter:brightness(0)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:22px var(--gut);font-size:14px;color:var(--fog);border-top:1px solid var(--line)}
 
 /* ---------- site view + dock + veil ---------- */

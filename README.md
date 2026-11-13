@@ -8,6 +8,9 @@
 - `assets/main.css`, `assets/app.js` — стили, роутер, переходы, 3D-звезда
 - `assets/fonts/` — шрифты с кириллицей (лежат локально, без CDN)
 - `vendor/three.min.js` — Three.js r128
+- `car/` — процедурная 3D-модель купе для «Глянца» (three r178, грузится только на этом демо)
+- `img/` — фото для демо (Unsplash и свои для детейлинга)
+- `assets/logo.png` — логотип без фона
 - `sites/*.js` — демо-сайты: `coffee`, `barber`, `tattoo`, `detailing`, `photo`, `estate`. Каждый подгружается только при открытии
 
 ## Запуск

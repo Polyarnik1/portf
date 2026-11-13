@@ -15,6 +15,14 @@ css: `
 .b-btn{display:inline-block;padding:18px 34px;background:var(--red);color:var(--paper);font:700 20px/1 'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.05em;text-decoration:none;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);transition:transform .12s,box-shadow .12s}
 .b-btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
 .b-btn[disabled]{background:#b9b09b;box-shadow:none;cursor:not-allowed;transform:none}
+.b-photo{margin:clamp(22px,4vw,44px) 0 0;border:3px solid var(--ink);position:relative;overflow:hidden;aspect-ratio:21/9;background:var(--ink)}
+.b-photo img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15)}
+.b-photo figcaption{position:absolute;left:0;bottom:0;background:var(--red);color:var(--paper);font:700 clamp(1rem,2.4vw,1.6rem)/1 'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.05em;padding:12px 18px;border-top:3px solid var(--ink);border-right:3px solid var(--ink)}
+.b-gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(120px,17vw,230px);gap:10px}
+.b-gal figure{margin:0;border:3px solid var(--ink);overflow:hidden;background:var(--ink)}
+.b-gal img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12);transition:filter .5s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.b-gal figure:hover img{filter:none;transform:scale(1.05)}
+.b-gal .tall{grid-row:span 2}.b-gal .wide{grid-column:span 2}
 .b-sec{padding-top:clamp(48px,7vw,96px);padding-bottom:clamp(48px,7vw,96px)}
 .b-sec h2{font-size:clamp(2.4rem,7vw,5rem);margin-bottom:28px}
 .b-dark{background:var(--ink);color:var(--bone)}
@@ -27,8 +35,9 @@ css: `
 .b-price em{font:700 clamp(1.3rem,3vw,2rem)/1 'Oswald',sans-serif;font-style:normal;color:#f0b9a8;white-space:nowrap}
 .b-crew{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .b-man{border:3px solid var(--ink);background:var(--paper);padding:20px;display:grid;gap:10px}
-.b-man .mono{aspect-ratio:1.25;display:grid;place-items:center;font:700 clamp(4rem,9vw,7rem)/1 'Oswald',sans-serif;color:var(--paper);background:var(--navy)}
-.b-man:nth-child(2) .mono{background:var(--red)}.b-man:nth-child(3) .mono{background:var(--ink)}
+.b-man .mono{aspect-ratio:1.1;overflow:hidden;background:var(--ink);border:3px solid var(--ink)}
+.b-man .mono img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 25%;filter:grayscale(1) contrast(1.1);transition:filter .5s}
+.b-man:hover .mono img{filter:none}
 .b-man h3{font-size:1.7rem}
 .b-man p{font-size:15.5px}
 .b-book{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(20px,4vw,48px);align-items:start}
@@ -46,7 +55,7 @@ css: `
 .b-ticket dt{opacity:.6}.b-ticket dd{margin:0;font-weight:600;text-align:right}
 .b-ok{background:var(--navy);color:var(--paper);padding:14px;font-size:15px}
 .b-foot{border-top:3px solid var(--ink);padding-top:22px;padding-bottom:16px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:14px}
-@media(max-width:820px){.b-hero-row,.b-book{grid-template-columns:1fr}.b-crew{grid-template-columns:1fr}.b-man{grid-template-columns:110px 1fr;align-items:center;column-gap:16px}.b-man .mono{grid-row:1/3;aspect-ratio:1;font-size:3.4rem}.b-price li{grid-template-columns:1fr auto}.b-price span{grid-column:1;grid-row:2}.b-ticket{position:static}.b-btn{text-align:center}}
+@media(max-width:820px){.b-hero-row,.b-book{grid-template-columns:1fr}.b-crew{grid-template-columns:1fr}.b-man{grid-template-columns:120px 1fr;align-items:center;column-gap:16px}.b-man .mono{grid-row:1/3;aspect-ratio:1}.b-gal{grid-template-columns:1fr 1fr;grid-auto-rows:34vw}.b-photo{aspect-ratio:4/3}.b-price li{grid-template-columns:1fr auto}.b-price span{grid-column:1;grid-row:2}.b-ticket{position:static}.b-btn{text-align:center}}
 `,
 html: `
 <div class="b-pole" aria-hidden="true"></div>
@@ -57,6 +66,7 @@ html: `
     <p>Мужские стрижки, борода и бритьё опасной бритвой. Работаем только по записи, поэтому мастер ждёт вас, а не вы мастера.</p>
     <a class="b-btn" href="#barber" data-b-scroll>Выбрать время</a>
   </div>
+  <figure class="b-photo"><img src="img/barber/hero.webp" alt="Зал барбершопа: кресла у кирпичной стены" width="1600" height="1063" fetchpriority="high"><figcaption>Три кресла, кирпич и хороший свет</figcaption></figure>
 </section>
 <section class="b-dark"><div class="wrap b-sec">
   <h2>Цены</h2>
@@ -69,12 +79,25 @@ html: `
     <li><b>Отец и сын<small>Две стрижки, ребёнку до 12 лет</small></b><span>90 мин</span><em>2 600 ₽</em></li>
   </ul>
 </div></section>
+<section class="wrap b-sec" style="padding-bottom:0">
+  <h2>В зале</h2>
+  <div class="b-gal">
+    <figure class="wide"><img src="img/barber/g1.webp" alt="Мастер оформляет бороду" width="900" height="600" loading="lazy" decoding="async"></figure>
+    <figure class="tall"><img src="img/barber/g4.webp" alt="Бритьё опасной бритвой" width="900" height="1355" loading="lazy" decoding="async"></figure>
+    <figure><img src="img/barber/g3.webp" alt="Кожаное барберское кресло" width="900" height="600" loading="lazy" decoding="async"></figure>
+    <figure><img src="img/barber/g2.webp" alt="Стрижка машинкой" width="900" height="600" loading="lazy" decoding="async"></figure>
+    <figure><img src="img/barber/g7.webp" alt="Инструменты мастера: машинки, ножницы, расчёска" width="900" height="600" loading="lazy" decoding="async"></figure>
+    <figure class="tall"><img src="img/barber/g6.webp" alt="Фейд и борода" width="900" height="1348" loading="lazy" decoding="async"></figure>
+    <figure><img src="img/barber/g5.webp" alt="Пена и помазок перед бритьём" width="900" height="600" loading="lazy" decoding="async"></figure>
+    <figure class="wide"><img src="img/barber/g8.webp" alt="Укладка после стрижки" width="900" height="600" loading="lazy" decoding="async"></figure>
+  </div>
+</section>
 <section class="wrap b-sec">
   <h2>Мастера</h2>
   <div class="b-crew">
-    <article class="b-man"><div class="mono" aria-hidden="true">А</div><h3>Артём</h3><p>Фейды и короткие формы. Любит чёткие линии и аккуратные переходы.</p></article>
-    <article class="b-man"><div class="mono" aria-hidden="true">Д</div><h3>Давид</h3><p>Борода и бритьё. Соберёт форму бороды под овал лица.</p></article>
-    <article class="b-man"><div class="mono" aria-hidden="true">Г</div><h3>Глеб</h3><p>Классика на ножницах. Длинные стрижки и укладки.</p></article>
+    <article class="b-man"><div class="mono"><img src="img/barber/m1.webp" alt="Артём за работой" width="700" height="931" loading="lazy" decoding="async"></div><h3>Артём</h3><p>Фейды и короткие формы. Любит чёткие линии и аккуратные переходы.</p></article>
+    <article class="b-man"><div class="mono"><img src="img/barber/m2.webp" alt="Давид за работой" width="700" height="1050" loading="lazy" decoding="async"></div><h3>Давид</h3><p>Борода и бритьё. Соберёт форму бороды под овал лица.</p></article>
+    <article class="b-man"><div class="mono"><img src="img/barber/m3.webp" alt="Глеб за работой" width="700" height="465" loading="lazy" decoding="async"></div><h3>Глеб</h3><p>Классика на ножницах. Длинные стрижки и укладки.</p></article>
   </div>
 </section>
 <section class="wrap b-sec" id="b-book" style="padding-top:0">
@@ -94,7 +117,7 @@ html: `
     </aside>
   </div>
 </section>
-<footer class="wrap b-foot"><span>Демо-сайт барбершопа. Заведение вымышленное.</span><a href="#tattoo">Следующее демо: тату-салон «Тушь»</a></footer>
+<footer class="wrap b-foot"><span>Демо-сайт барбершопа. Заведение вымышленное. Фото: Unsplash.</span><a href="#tattoo">Следующее демо: тату-салон «Тушь»</a></footer>
 `,
 mount: function (root) {
   var SVC = [['Стрижка', 1800], ['Машинкой', 1100], ['Борода', 1000], ['Стрижка и борода', 2500], ['Бритьё', 1600]];
