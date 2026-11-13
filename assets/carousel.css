@@ -1,0 +1,142 @@
+/* Карусель шести сайтов: карточки по дуге, по бокам стеклянные плашки с достоинствами */
+@property --acc{syntax:'<color>';inherits:true;initial-value:#d97757}
+.cf{--acc:#d97757;--cw:clamp(270px,25vw,330px);--pw:clamp(230px,21vw,290px);--gap:clamp(26px,3vw,44px);
+  position:relative;transition:--acc 1.1s ease;margin-top:clamp(6px,2vw,20px)}
+.cf::before{content:"";position:absolute;left:50%;top:44%;width:min(1100px,120vw);height:640px;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 30%,transparent),color-mix(in srgb,var(--acc) 8%,transparent) 55%,transparent);opacity:.75}
+
+/* огромное название сайта за сценой */
+.cf-ghost{position:absolute;inset:-4% -10% auto;height:46%;display:grid;place-items:center;pointer-events:none;z-index:-1;overflow:hidden}
+.cf-ghost span{grid-area:1/1;white-space:nowrap;font-size:clamp(4.5rem,15vw,13rem);line-height:1;color:transparent;
+  -webkit-text-stroke:1px color-mix(in srgb,var(--acc) 42%,transparent);opacity:0;translate:0 40%;scale:1.12 1;will-change:opacity,translate;
+  transition:opacity .9s ease,translate 1.1s cubic-bezier(.16,.8,.24,1),scale 1.4s cubic-bezier(.16,.8,.24,1)}
+.cf-ghost span.on{opacity:.9;translate:0 0;scale:1 1}
+.cf-ghost span.off{opacity:0;translate:0 -40%;scale:.94 1;transition-duration:.5s,.6s,.6s}
+
+/* сцена */
+.cf-stage{position:relative;height:calc(var(--cw)*1.25 + 60px);perspective:1500px;perspective-origin:50% 45%;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.cf-track{position:absolute;inset:0;transform-style:preserve-3d}
+.cf-item{position:absolute;left:50%;top:30px;width:var(--cw);margin-left:calc(var(--cw)/-2);transform-style:preserve-3d;
+  transition:transform 1s cubic-bezier(.65,0,.15,1),opacity .9s ease;will-change:transform,opacity}
+.cf-item::before{content:"";position:absolute;inset:0;z-index:5;border-radius:22px;background:#050302;opacity:var(--dim,0);pointer-events:none;transition:opacity .9s ease}
+.cf-item .portal{width:100%;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.cf-item:not(.is-on) .portal{pointer-events:auto;cursor:pointer}
+.cf-item:not(.is-on) .portal:hover{transform:none;box-shadow:none}
+.cf-item:not(.is-on) .portal::after{display:none}
+.cf-item .portal{box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 35%,transparent)}
+.cf-item:not(.is-on) .portal{box-shadow:none}
+.cf-item.is-on .portal:hover{transform:rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg)) translateZ(10px)}
+.cf-item .portal::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .4s;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,.22),transparent 45%)}
+.cf-item.is-on .portal:hover::before{opacity:1}
+/* отражение под активной карточкой */
+.cf-item::after{content:"";position:absolute;left:8%;right:8%;bottom:-28px;height:40px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 55%,transparent),transparent);filter:blur(8px);opacity:0;transition:opacity .9s}
+.cf-item.is-on::after{opacity:.8}
+
+/* стрелки */
+.cf-arrow{position:absolute;top:calc(30px + var(--cw)*.625);z-index:30;width:58px;height:58px;margin-top:-29px;border-radius:50%;display:grid;place-items:center;
+  color:var(--snow);background:rgba(18,13,11,.55);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:background .3s,border-color .3s,transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .3s}
+.cf-arrow svg{width:24px;height:24px}
+.cf-prev{left:0}.cf-next{right:0}.cf-next svg{transform:scaleX(-1)}
+.cf-arrow:hover{border-color:color-mix(in srgb,var(--acc) 70%,transparent);box-shadow:0 0 30px -4px color-mix(in srgb,var(--acc) 70%,transparent);background:rgba(30,20,16,.75)}
+.cf-prev:hover{transform:translateX(-4px)}.cf-next:hover{transform:translateX(4px)}
+.cf-arrow:active{transform:scale(.92)}
+.cf-arrow:focus-visible,.cf-tab:focus-visible,.cf-open:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.cf-arrow.bump{animation:cf-bump .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes cf-bump{40%{transform:scale(.88)}}
+
+/* стеклянные плашки */
+.cf-panel{position:absolute;z-index:20;top:calc(30px + var(--cw)*.625);width:var(--pw);translate:0 -50%;padding:22px 22px 20px;border-radius:22px;
+  background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 40%),rgba(14,10,8,.42);
+  border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 30px 60px -30px rgba(0,0,0,.9);
+  opacity:0;pointer-events:none;will-change:transform,opacity;
+  transition:opacity .45s ease,transform .45s cubic-bezier(.6,0,.4,1)}
+@media (hover:hover) and (min-width:900px){.cf-panel{backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);filter:blur(10px);transition:opacity .45s ease,transform .45s cubic-bezier(.6,0,.4,1),filter .45s ease}}
+@media not all and (hover:hover) and (min-width:900px){.cf-panel{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 40%),rgba(18,13,11,.9)}}
+.cf-l{right:calc(50% + var(--cw)/2 + var(--gap));transform:translateX(90px) scale(.86) rotateY(-14deg);transform-origin:100% 50%}
+.cf-r{left:calc(50% + var(--cw)/2 + var(--gap));transform:translateX(-90px) scale(.86) rotateY(14deg);transform-origin:0 50%}
+.cf-panel.show{opacity:1;transform:none;pointer-events:auto;transition:opacity .8s ease,transform 1s cubic-bezier(.16,.8,.24,1)}
+@media (hover:hover) and (min-width:900px){.cf-panel.show{filter:none;transition:opacity .8s ease,transform 1s cubic-bezier(.16,.8,.24,1),filter .8s ease}}
+/* светящаяся кромка в цвет сайта */
+.cf-panel::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(var(--edge,90deg),color-mix(in srgb,var(--acc) 80%,transparent),transparent 55%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.cf-l{--edge:270deg}
+/* линия-связка к карточке */
+.cf-panel::after{content:"";position:absolute;top:50%;width:var(--gap);height:1px;background:linear-gradient(90deg,var(--acc),transparent);transform:scaleX(0);transition:transform .3s ease}
+.cf-l::after{left:100%;transform-origin:100% 0;background:linear-gradient(270deg,var(--acc),transparent)}
+.cf-r::after{right:100%;transform-origin:0 0}
+.cf-panel.show::after{transform:scaleX(1);transition:transform .7s cubic-bezier(.16,.8,.24,1) .55s}
+.cf-l.show::after{transform-origin:0 0}.cf-r.show::after{transform-origin:100% 0}
+
+.cf-kick{display:flex;align-items:center;gap:8px;font-size:13px;color:color-mix(in srgb,var(--acc) 75%,#fff);margin-bottom:6px}
+.cf-kick::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.cf-panel h4{margin:0 0 14px;font:700 1.02rem/1.25 var(--f-display);color:var(--snow)}
+.cf-panel ul{display:grid;gap:12px}
+.cf-panel li{position:relative;padding-left:26px;font-size:15px;line-height:1.45;color:#d9cfc8}
+.cf-panel li svg{position:absolute;left:0;top:.18em;width:16px;height:16px;color:var(--acc)}
+.cf-panel li,.cf-panel h4,.cf-kick{opacity:0;translate:0 14px;transition:opacity .2s,translate .2s}
+.cf-panel.show li,.cf-panel.show h4,.cf-panel.show .cf-kick{opacity:1;translate:0 0;
+  transition:opacity .7s ease,translate .8s cubic-bezier(.16,.8,.24,1);transition-delay:calc(.32s + var(--i,0)*.085s)}
+@media (hover:hover) and (min-width:900px){.cf-panel li,.cf-panel h4,.cf-kick{filter:blur(6px)}.cf-panel.show li,.cf-panel.show h4,.cf-panel.show .cf-kick{filter:none;transition:opacity .7s ease,translate .8s cubic-bezier(.16,.8,.24,1),filter .7s ease;transition-delay:calc(.32s + var(--i,0)*.085s)}}
+.cf-panel li svg path{stroke-dasharray:24;stroke-dashoffset:24}
+.cf-panel.show li svg path{stroke-dashoffset:0;transition:stroke-dashoffset .6s ease calc(.55s + var(--i,0)*.085s)}
+
+/* нижняя панель */
+.cf-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:clamp(18px,3vw,34px)}
+.cf-count{font:600 14px/1 var(--f-display);color:var(--fog);min-width:70px;font-variant-numeric:tabular-nums}
+.cf-count b{display:inline-block;color:var(--snow);font-weight:700}
+.cf-count b.roll{animation:cf-roll .6s cubic-bezier(.16,.8,.24,1)}
+@keyframes cf-roll{from{opacity:0;translate:0 70%;filter:blur(4px)}}
+.cf-tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.cf-tab{position:relative;padding:10px 14px 12px;border-radius:12px;font-size:14px;color:var(--fog);transition:color .3s,background .3s;overflow:hidden}
+.cf-tab:hover{color:var(--snow);background:rgba(255,255,255,.04)}
+.cf-tab.on{color:var(--snow)}
+.cf-tab i{position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}
+.cf-tab i::after{content:"";position:absolute;inset:0;background:var(--acc);box-shadow:0 0 10px var(--acc);transform:scaleX(0);transform-origin:0 50%}
+.cf-tab.on i::after{transform:scaleX(1);transition:transform .5s ease}
+.cf.auto .cf-tab.on i::after{transform:scaleX(0);animation:cf-prog var(--dur,7s) linear forwards}
+.cf.auto.hold .cf-tab.on i::after{animation-play-state:paused}
+@keyframes cf-prog{to{transform:scaleX(1)}}
+.cf-open{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;white-space:nowrap;
+  color:#140a06;background:var(--acc);box-shadow:0 10px 30px -10px var(--acc);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s}
+.cf-open::after{content:"";width:8px;height:8px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg)}
+.cf-open:hover{transform:translateY(-2px);box-shadow:0 16px 40px -10px var(--acc)}
+
+/* появление всей карусели: карточки веером из одной точки */
+.cf-pre .cf-item{transform:translateZ(-500px) scale(.6)!important;opacity:0!important;transition:none}
+.cf-pre .cf-arrow{opacity:0;transform:scale(.6)}
+.cf-pre .cf-bar{opacity:0;translate:0 20px}
+.cf .cf-arrow,.cf .cf-bar{transition:opacity .8s ease .6s,translate .9s cubic-bezier(.16,.8,.24,1) .6s,transform .35s cubic-bezier(.2,.7,.2,1),background .3s,border-color .3s,box-shadow .3s}
+.cf.intro .cf-item{transition:transform 1.4s cubic-bezier(.16,.8,.24,1),opacity 1.1s ease,filter 1.2s ease;transition-delay:var(--sd,0s)}
+
+/* компьютер: соседние карточки уходят за стекло */
+@media (min-width:900px){
+  .cf-stage{min-height:480px}
+}
+/* планшет и телефон: плашки под карточкой */
+@media (max-width:899px){
+  .cf{--cw:min(64vw,290px);--gap:0px}
+  .cf::before{height:520px;top:30%}
+  .cf-stage{height:calc(var(--cw)*1.25 + 44px)}
+  .cf-item{top:14px}
+  .cf-arrow{width:46px;height:46px;margin-top:-23px;top:calc(14px + var(--cw)*.625)}
+  .cf-prev{left:-6px}.cf-next{right:-6px}
+  .cf-panels{display:grid;gap:12px;margin-top:6px}
+  .cf-panel{position:relative;inset:auto;top:auto;width:auto;translate:none;padding:18px}
+  .cf-l{transform:translateX(-60px) scale(.96);right:auto}
+  .cf-r{transform:translateX(60px) scale(.96);left:auto}
+  .cf-panel::after{display:none}
+  .cf-panel ul{gap:9px}
+  .cf-bar{flex-wrap:wrap;justify-content:center;row-gap:14px}
+  .cf-tabs{order:3;width:100%;gap:2px}
+  .cf-tab{padding:8px 9px 11px;font-size:13px}
+  .cf-tab i{left:9px;right:9px}
+  .cf-count{min-width:0}
+  .cf-ghost{height:34%;inset:-2% -20% auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .cf *,.cf *::before,.cf *::after{transition-duration:.01s!important;transition-delay:0s!important;animation:none!important}
+}
+@media (max-width:899px){.cf{transition:none}.cf-tabs{display:none}.cf-bar{flex-wrap:nowrap;justify-content:space-between}}

@@ -253,7 +253,7 @@ a{color:inherit}
 }
 
 /* сетка: подсветка под курсором (компьютер) и сетка в контактах */
-.deco-grid::before{content:"";position:absolute;inset:0;background:inherit;filter:brightness(2.6) saturate(1.3);opacity:var(--ho,0);transition:opacity .35s;-webkit-mask:radial-gradient(circle 200px at var(--hx,-999px) var(--hy,-999px),#000,transparent);mask:radial-gradient(circle 200px at var(--hx,-999px) var(--hy,-999px),#000,transparent)}
+@media (hover:hover) and (min-width:900px){.deco-grid::before{content:"";position:absolute;inset:0;background:inherit;filter:brightness(2.6) saturate(1.3);opacity:var(--ho,0);transition:opacity .35s;-webkit-mask:radial-gradient(circle 200px at var(--hx,-999px) var(--hy,-999px),#000,transparent);mask:radial-gradient(circle 200px at var(--hx,-999px) var(--hy,-999px),#000,transparent)}}
 .contact>.deco-grid.g-top{position:absolute;z-index:0;top:0;bottom:auto;height:66%;--gx:50%;--gy:42%}
 
 /* ---------- появление при прокрутке (классы ставит Motion в app.js) ---------- */
