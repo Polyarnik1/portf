@@ -144,7 +144,8 @@ a{color:inherit}
 
 .p-detailing{background:#07090c;color:#eaf6fb;--pglow:rgba(70,214,255,.5);--pchip:#46d6ff;--pchipink:#04121a;border:1px solid #16202a}
 .p-detailing .p-name{font:700 clamp(1.7rem,3.2vw,2.5rem)/1 'Tektur',sans-serif;text-transform:uppercase;letter-spacing:.04em}
-.p-detailing .p-art{background:radial-gradient(60% 30% at 50% 34%,rgba(70,214,255,.35),transparent),linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 44%,transparent 52%) 0 0/250% 100%;animation:sheen 4.5s ease-in-out infinite}
+.p-detailing .p-art{background:linear-gradient(180deg,rgba(7,9,12,.1) 0%,rgba(7,9,12,.35) 40%,#07090c 82%),radial-gradient(70% 40% at 30% 30%,rgba(70,214,255,.28),transparent),url(../img/detailing2/hero.webp) 62% 30%/cover}
+.p-detailing .p-art::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.2) 44%,transparent 52%) 0 0/250% 100%;animation:sheen 4.5s ease-in-out infinite;mix-blend-mode:screen}
 @keyframes sheen{0%{background-position:0 0,120% 0}100%{background-position:0 0,-60% 0}}
 
 .p-photo{background:#0c0b0a;color:#ece6da;--pglow:rgba(196,171,130,.5);--pchip:#c4ab82;--pchipink:#0c0b0a;border:1px solid #2b2824}
@@ -253,3 +254,7 @@ a{color:inherit}
   .contact .contact-glow{display:none}
   .contact .relief{inset:auto 0 0 0;height:clamp(480px,42vw,620px);-webkit-mask:linear-gradient(transparent,#000 18%);mask:linear-gradient(transparent,#000 18%)}
 }
+
+/* сетка: подсветка под курсором (компьютер) и сетка в контактах */
+.deco-grid::before{content:"";position:absolute;inset:0;background:inherit;filter:brightness(2.6) saturate(1.3);opacity:var(--ho,0);transition:opacity .35s;-webkit-mask:radial-gradient(circle 200px at var(--hx,-999px) var(--hy,-999px),#000,transparent);mask:radial-gradient(circle 200px at var(--hx,-999px) var(--hy,-999px),#000,transparent)}
+.contact>.deco-grid.g-top{position:absolute;z-index:0;top:0;bottom:auto;height:66%;--gx:50%;--gy:42%}
