@@ -229,7 +229,7 @@
     var dpr = Math.min(devicePixelRatio || 1, 1.5), raf = 0, last = 0, flow = 0, acc = 0;
     function size(it) {
       var w = it.cv.clientWidth, h = it.cv.clientHeight; if (!w || !h) return false;
-      if (w !== it.w || h !== it.h) { it.w = w; it.h = h; it.cv.width = Math.round(w * dpr); it.cv.height = Math.round(h * dpr); it.ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+      if (w !== it.w || h !== it.h) { it.w = w; it.h = h; it.cv.width = Math.round(w * dpr); it.cv.height = Math.round(h * dpr); it.ctx.setTransform(dpr, 0, 0, dpr, 0, 0); it.bgW = 0; }
       return true;
     }
     function smooth(e0, e1, x) { var t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); }
@@ -237,8 +237,57 @@
       var edge = smooth(.28, 1, Math.abs(x));
       return edge * edge * (1.25 + .35 * Math.sin(z * .55 + x * 3.1) + .22 * Math.sin(z * 1.3 - x * 7)) ;
     }
+    function smoothstep(a, b, x) { return smooth(a, b, x); }
+    // сцена с горизонтом: плоский коридор в центре, по бокам гребни с перекрытием линий
+    function terrainBg(it) {
+      var W = it.w, H = it.h, o = document.createElement('canvas'); o.width = W; o.height = H;
+      var g = o.getContext('2d'), hz = H * .3;
+      g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+      var r = g.createRadialGradient(W / 2, hz, 0, W / 2, hz, W * .4);
+      r.addColorStop(0, 'rgba(255,143,90,.62)'); r.addColorStop(.35, 'rgba(217,119,87,.22)'); r.addColorStop(1, 'rgba(217,119,87,0)');
+      g.save(); g.translate(0, hz); g.scale(1, .3); g.translate(0, -hz); g.fillStyle = r; g.fillRect(0, -H * 2, W, H * 6); g.restore();
+      it.bg = o; it.bgPat = it.ctx.createPattern(o, 'no-repeat'); it.bgW = W; it.bgH = H;
+    }
+    function tH(X, wz) {
+      var ax = Math.abs(X), e = smoothstep(3.2, 9.5, ax);
+      return e * e * (1.5 + .75 * Math.sin(wz * .5 + ax * .9) + .45 * Math.sin(wz * 1.15 - ax * .6)) + .12 * e * Math.sin(wz * 2.3 + X);
+    }
+    function drawTerrain(it) {
+      var c = it.ctx, W = it.w, H = it.h;
+      if (it.bgW !== W || it.bgH !== H) terrainBg(it);
+      var hz = H * .3, f = W * .56, fy = f * .5, camH = 1.3, zmin = 1.1, rows = 46, cols = 64, xs = .62;
+      var tt = flow * 5.5, fr = tt % 1, fi = Math.floor(tt);
+      c.setLineDash([]); c.globalCompositeOperation = 'source-over';
+      c.drawImage(it.bg, 0, 0);
+      // линия горизонта
+      var hg = c.createLinearGradient(0, 0, W, 0); hg.addColorStop(0, 'rgba(255,143,90,0)'); hg.addColorStop(.5, 'rgba(255,170,120,.85)'); hg.addColorStop(1, 'rgba(255,143,90,0)');
+      c.fillStyle = hg; c.fillRect(0, hz - .5, W, 1);
+      function pt(i, z, wz) { var X = (i - cols / 2) * xs, Y = tH(X, wz); return [W / 2 + X * f / z, hz + (camH - Y) * fy / z]; }
+      var prev = null;
+      for (var r = rows; r >= 0; r--) {
+        var z = zmin * Math.pow(1.11, r - fr), wz = (r + fi) * .62; // мировая координата ряда
+        var P = [], i; for (i = 0; i <= cols; i++) P.push(pt(i, z, wz));
+        var a = Math.pow(1 - r / (rows + 1), 1.1);
+        // закрашиваем всё под гребнем фоном, чтобы скрыть дальние линии
+        c.beginPath(); c.moveTo(P[0][0], H + 4); for (i = 0; i <= cols; i++) c.lineTo(P[i][0], P[i][1]); c.lineTo(P[cols][0], H + 4); c.closePath();
+        c.fillStyle = it.bgPat; c.fill();
+        // поперечные отрезки к более дальнему ряду
+        if (prev) {
+          c.setLineDash([4, 4]); c.lineWidth = 1; c.strokeStyle = 'rgba(255,143,90,' + (a * .62).toFixed(3) + ')'; c.beginPath();
+          for (i = 0; i <= cols; i++) { c.moveTo(P[i][0], P[i][1]); c.lineTo(prev[i][0], prev[i][1]); }
+          c.stroke();
+        }
+        // сам ряд
+        c.setLineDash([6, 5]); c.lineWidth = 1.1; c.strokeStyle = 'rgba(255,150,100,' + Math.min(1, a * .78).toFixed(3) + ')'; c.beginPath();
+        for (i = 0; i <= cols; i++) { if (i) c.lineTo(P[i][0], P[i][1]); else c.moveTo(P[i][0], P[i][1]); }
+        c.stroke();
+        prev = P;
+      }
+      c.setLineDash([]);
+    }
     function draw(it) {
       if (!size(it)) return;
+      if (it.cv.dataset.mode === 'terrain' && it.w >= 900) { drawTerrain(it); return; }
       var c = it.ctx, W = it.w, H = it.h, cols = W < 700 ? 22 : 34, rows = 26, f = H * 1.05, camY = 1.1, horizon = H * .02;
       c.clearRect(0, 0, W, H); c.lineWidth = 1; c.setLineDash([3, 5]);
       var dz = .55, zoff = flow % dz, spread = 2.6;

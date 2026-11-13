@@ -246,3 +246,10 @@ a{color:inherit}
 @media (max-width:430px){
   .steps{grid-template-columns:1fr}
 }
+
+/* низ страницы на компьютере: сцена с горизонтом */
+@media (min-width:900px){
+  .contact{padding-top:clamp(110px,11vw,170px);padding-bottom:clamp(380px,36vw,520px);min-height:min(100vh,980px);align-content:start}
+  .contact .contact-glow{display:none}
+  .contact .relief{inset:auto 0 0 0;height:clamp(480px,42vw,620px);-webkit-mask:linear-gradient(transparent,#000 18%);mask:linear-gradient(transparent,#000 18%)}
+}
