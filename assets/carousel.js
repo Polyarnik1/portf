@@ -51,7 +51,19 @@
     if (mq.matches) { below.appendChild(pl); below.appendChild(pr); stage.after(below); }
     else { stage.insertBefore(pl, stage.firstChild); stage.appendChild(pr); if (below.parentNode) below.remove(); }
   }
-  place(); (mq.addEventListener ? mq.addEventListener('change', place) : mq.addListener(place));
+  // на телефоне высота плашек одинакова для всех сайтов, чтобы блок и сетка за ним не прыгали
+  function fixHeights() {
+    pl.style.minHeight = pr.style.minHeight = '';
+    if (!mq.matches) return;
+    var mh = [0, 0], keep = [pl.innerHTML, pr.innerHTML];
+    ids.forEach(function (id) {
+      fill(pl, 'l', INFO[id]); fill(pr, 'r', INFO[id]);
+      mh[0] = Math.max(mh[0], pl.offsetHeight); mh[1] = Math.max(mh[1], pr.offsetHeight);
+    });
+    pl.innerHTML = keep[0]; pr.innerHTML = keep[1];
+    pl.style.minHeight = mh[0] + 'px'; pr.style.minHeight = mh[1] + 'px';
+  }
+  place(); (mq.addEventListener ? mq.addEventListener('change', function () { place(); fixHeights(); }) : mq.addListener(place));
 
   function rel(i) { var d = ((i - cur) % N + N) % N; if (d > N / 2) d -= N; return d; }
   function layout(intro) {
@@ -176,7 +188,8 @@
     p.addEventListener('pointerleave', function () { p.style.setProperty('--rx', '0deg'); p.style.setProperty('--ry', '0deg'); });
   });
 
-  addEventListener('resize', function () { layout(false); });
+  var rt = 0; addEventListener('resize', function () { layout(false); clearTimeout(rt); rt = setTimeout(fixHeights, 200); });
+  fixHeights(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fixHeights);
 
   // первое появление: веер из одной точки, затем плашки
   layout(false);
