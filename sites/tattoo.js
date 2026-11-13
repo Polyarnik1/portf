@@ -1,4 +1,4 @@
-/* Тушь: тату-салон. Чёрный зал, костяной текст, красная печать. Работы на фото, лист для наброска орнамента. */
+/* Тушь: тату-салон. Чёрный зал, красный неон, костяной текст. Работы на фото, лист для наброска орнамента. */
 PORTF.register('tattoo', {
 css: `
 .s-tattoo{--black:#090909;--coal:#131211;--line:#2a2725;--bone:#e9e3d7;--red:#d1162f;--grey:#8d877d;
@@ -7,14 +7,23 @@ css: `
 .s-tattoo .wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(18px,4.5vw,56px)}
 .t-seal{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;border:2px solid var(--red);color:var(--red);font:600 22px/1 'Cormorant Garamond',serif;transform:rotate(-8deg);flex:none}
 .t-hero{position:relative;min-height:min(92svh,820px);display:grid;grid-template-rows:auto 1fr;overflow:hidden;isolation:isolate}
-.t-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(1) contrast(1.1) brightness(.62)}
-.t-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(9,9,9,.55),rgba(9,9,9,.15) 40%,var(--black) 98%)}
+.t-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;z-index:-2;filter:contrast(1.08) saturate(1.1) brightness(.72)}
+.t-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(9,9,9,.6),rgba(9,9,9,.1) 40%,var(--black) 98%),radial-gradient(60% 50% at 80% 30%,rgba(255,30,70,.18),transparent)}
 .t-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:20px;padding-bottom:20px;font-size:15px}
 .t-hero-body{align-self:end;padding-bottom:clamp(28px,5vw,60px)}
-.t-hero h1{font:italic 500 clamp(6rem,24vw,19rem)/.78 'Cormorant Garamond',serif;letter-spacing:-.04em;margin-left:-.05em;text-shadow:0 4px 60px rgba(0,0,0,.6)}
+.t-hero h1{font:italic 500 clamp(6rem,24vw,19rem)/.78 'Cormorant Garamond',serif;letter-spacing:-.04em;margin-left:-.05em;color:#fff3f4;text-shadow:0 0 6px rgba(255,255,255,.6),0 0 22px rgba(255,40,80,.9),0 0 60px rgba(255,20,60,.7),0 0 120px rgba(255,20,60,.45);animation:t-flick 7s infinite}
+@keyframes t-flick{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.55}}
+.t-neon{position:relative;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:14px;align-items:stretch}
+.t-neon figure{margin:0;position:relative;overflow:hidden;background:#000}
+.t-neon img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.t-neon figure:hover img{transform:scale(1.04)}
+.t-neon .tall{grid-row:span 2;aspect-ratio:4/5}
+.t-neon .wide{aspect-ratio:16/9}
+.t-neon figure::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,40,80,.35),inset 0 0 60px rgba(255,20,60,.18);pointer-events:none}
+.t-neon-cap{position:absolute;left:16px;bottom:14px;z-index:1;font:italic 500 clamp(1.6rem,3vw,2.4rem)/1 'Cormorant Garamond',serif;color:#fff;text-shadow:0 0 14px rgba(255,40,80,.9)}
 .t-hero-row{display:grid;grid-template-columns:1fr auto;gap:20px 40px;align-items:end;margin-top:clamp(26px,4vw,44px)}
 .t-hero p{max-width:27em;font-size:clamp(1rem,1.5vw,1.2rem)}
-.t-cta{display:inline-block;padding:16px 30px;background:var(--red);color:#fff;font-weight:600;text-decoration:none;transition:background .2s,transform .2s}
+.t-cta{display:inline-block;padding:16px 30px;background:var(--red);color:#fff;font-weight:600;text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 0 24px rgba(255,20,60,.55)}
 .t-cta:hover{background:#ee2440;transform:translateY(-2px)}
 .t-tape{border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:14px 0;font:italic 500 1.5rem/1 'Cormorant Garamond',serif;color:var(--grey)}
 .t-tape div{display:inline-block;animation:t-tape 40s linear infinite}
@@ -25,7 +34,8 @@ css: `
 .t-sec>h2+p{color:var(--grey);max-width:34em;margin-bottom:32px}
 .t-works{columns:3;column-gap:14px}
 .t-work{position:relative;display:block;width:100%;margin:0 0 14px;break-inside:avoid;overflow:hidden;cursor:zoom-in;text-align:left;background:var(--coal)}
-.t-work img{display:block;width:100%;height:auto;filter:grayscale(1) contrast(1.08);transition:filter .6s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.t-work img{display:block;width:100%;height:auto;filter:grayscale(.85) contrast(1.08);transition:filter .6s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.t-work:hover{box-shadow:0 0 0 1px rgba(255,40,80,.6),0 0 40px rgba(255,20,60,.35)}
 .t-work:hover img,.t-work:focus-visible img{filter:none;transform:scale(1.04)}
 .t-work span{position:absolute;left:0;right:0;bottom:0;padding:44px 16px 14px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:14px;color:#cfc8bb;display:flex;justify-content:space-between;gap:12px;align-items:end}
 .t-work b{font:600 1.5rem/1 'Cormorant Garamond',serif;color:var(--bone)}
@@ -75,11 +85,12 @@ css: `
 .t-box{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.94);display:grid;place-items:center;padding:20px 20px 96px;cursor:zoom-out;animation:t-fade .3s}
 .t-box img{max-width:100%;max-height:calc(100svh - 150px);display:block}
 @keyframes t-fade{from{opacity:0}}
-@media(max-width:860px){.t-works{columns:2;column-gap:10px}.t-work{margin-bottom:10px}.t-work span{font-size:12.5px;padding:30px 10px 10px}.t-work i{display:none}.t-split,.t-process,.t-calc,.t-hero-row{grid-template-columns:1fr}.t-pics{position:static}.t-styles li{grid-template-columns:1fr}.t-top span:last-child{font-size:13.5px;text-align:right}.t-cta{text-align:center}}
+@media(max-width:860px){.t-neon{grid-template-columns:1fr 1fr}.t-neon .tall{grid-row:auto;grid-column:1/-1;aspect-ratio:4/3}.t-neon .wide{aspect-ratio:1}.t-works{columns:2;column-gap:10px}.t-work{margin-bottom:10px}.t-work span{font-size:12.5px;padding:30px 10px 10px}.t-work i{display:none}.t-split,.t-process,.t-calc,.t-hero-row{grid-template-columns:1fr}.t-pics{position:static}.t-styles li{grid-template-columns:1fr}.t-top span:last-child{font-size:13.5px;text-align:right}.t-cta{text-align:center}}
+@media(prefers-reduced-motion:reduce){.t-hero h1{animation:none}}
 `,
 html: `
 <section class="t-hero">
-  <img src="img/tattoo/p1.webp" alt="Мастер работает над татуировкой" width="1400" height="788" fetchpriority="high">
+  <img src="img/tattoo/hero2.webp" alt="Татуированная рука в красном свете" width="1800" height="1200" fetchpriority="high">
   <header class="wrap t-top"><span class="t-seal" aria-hidden="true">Т</span><span>Студия татуировки. Каждый день с 12 до 22, по записи</span></header>
   <div class="wrap t-hero-body">
     <h1>Тушь</h1>
@@ -95,6 +106,16 @@ html: `
   <h2>Работы</h2>
   <p>Наведите на фото, чтобы увидеть его в цвете. Нажмите, чтобы открыть крупно.</p>
   <div class="t-works" id="t-works"></div>
+</section>
+
+<section class="wrap t-sec">
+  <h2>После заката</h2>
+  <p>Студия работает до 22:00. Вечером зал подсвечен неоном, играет музыка, и сеанс проходит быстрее, чем кажется.</p>
+  <div class="t-neon">
+    <figure class="tall"><img src="img/tattoo/neon1.webp" alt="Неоновая вывеска TATTOO" width="1000" height="1250" loading="lazy" decoding="async"><span class="t-neon-cap">Открыто до 22</span></figure>
+    <figure class="wide"><img src="img/tattoo/p4.webp" alt="Мастер набивает тату под кольцевой лампой" width="1100" height="729" loading="lazy" decoding="async"></figure>
+    <figure class="wide"><img src="img/tattoo/neon2.webp" alt="Неон TATTOO в витрине студии" width="1200" height="797" loading="lazy" decoding="async"></figure>
+  </div>
 </section>
 
 <section class="wrap t-sec">
@@ -126,7 +147,7 @@ html: `
 <section class="wrap t-sec">
   <div class="t-process">
     <div class="t-pics">
-      <img src="img/tattoo/p3.webp" alt="Мастер за работой в студии" width="1000" height="667" loading="lazy" decoding="async">
+      <img src="img/tattoo/p5.webp" alt="Мастер за работой в тёмной студии" width="1000" height="1333" loading="lazy" decoding="async">
       <img src="img/tattoo/p2.webp" alt="Руки мастера в перчатках с тату-машинкой" width="1000" height="667" loading="lazy" decoding="async">
     </div>
     <div>
@@ -166,7 +187,7 @@ html: `
 `,
 mount: function (root) {
   /* ----- работы ----- */
-  var WORKS = [['w1', 'Пион', 'Графика, предплечье', 900, 1350], ['w2', 'Мандала', 'Орнаментал, спина', 900, 1350], ['w5', 'Рукав', 'Чёрно-серый реализм', 900, 1350], ['w3', 'Цветы', 'Тонкая линия, плечо', 900, 1169], ['w4', 'Спина', 'Японский стиль', 900, 1350], ['w6', 'Надписи', 'Леттеринг, рука', 900, 1200]];
+  var WORKS = [['w1', 'Пион', 'Графика, предплечье', 900, 1350], ['w2', 'Мандала', 'Орнаментал, спина', 900, 1350], ['w5', 'Рукав', 'Чёрно-серый реализм', 900, 1350], ['w3', 'Цветы', 'Тонкая линия, плечо', 900, 1169], ['w7', 'Шея', 'Графика, орнамент', 900, 1125], ['w8', 'Рукав в работе', 'Чёрно-серый, сеанс 3', 1000, 667]];
   var works = root.querySelector('#t-works'), box = null;
   works.innerHTML = WORKS.map(function (w, i) { return '<button class="t-work" data-i="' + i + '" aria-label="Открыть работу: ' + w[1] + '"><img src="img/tattoo/' + w[0] + '.webp" alt="' + w[1] + '. ' + w[2] + '" width="' + w[3] + '" height="' + w[4] + '" loading="lazy" decoding="async"><span><b>' + w[1] + '</b><i>' + w[2] + '</i></span></button>'; }).join('');
   function close() { if (box) { box.remove(); box = null; document.removeEventListener('keydown', esc); } }

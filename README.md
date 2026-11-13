@@ -11,7 +11,8 @@
 - `car/` — процедурная 3D-модель купе для «Глянца» (three r178, грузится только на этом демо)
 - `img/` — фото для демо (Unsplash и свои для детейлинга)
 - `assets/logo.png` — логотип без фона
-- `sites/*.js` — демо-сайты: `coffee`, `barber`, `tattoo`, `detailing`, `photo`, `estate`. Каждый подгружается только при открытии
+- `img/detailing2/` — фото из blik-demo для «Глянца»
+- `sites/*.js` — демо-сайты: `coffee`, `barber` (на основе Barbershop-demo), `tattoo`, `detailing`, `photo`, `estate`. Каждый подгружается только при открытии
 
 ## Запуск
 

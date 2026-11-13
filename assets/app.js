@@ -8,10 +8,10 @@
 
   var META = {
     coffee:    { name: 'Зерно и пар', bg: '#1d3a2b', ink: '#f3e6d0', font: "400 1em 'Yeseva One',Georgia,serif" },
-    barber:    { name: 'ОСТРИЁ',      bg: '#e9e1cf', ink: '#15130f', font: "700 1em 'Oswald',Impact,sans-serif" },
+    barber:    { name: 'ЦИРЮЛЬНЯ №7', bg: '#0F1923', ink: '#EDF0F3', font: "700 1em 'Oswald',Impact,sans-serif" },
     tattoo:    { name: 'Тушь',        bg: '#090909', ink: '#e9e3d7', font: "italic 500 1.2em 'Cormorant Garamond',Georgia,serif" },
     detailing: { name: 'ГЛЯНЕЦ',      bg: '#07090c', ink: '#46d6ff', font: "700 1em 'Tektur',sans-serif" },
-    photo:     { name: 'Выдержка',    bg: '#fafaf7', ink: '#111111', font: "300 1em 'Jost',sans-serif" },
+    photo:     { name: 'Выдержка',    bg: '#0c0b0a', ink: '#ece6da', font: "400 1em 'Prata',Georgia,serif" },
     estate:    { name: 'Высота',      bg: '#10291f', ink: '#ebe7de', font: "400 1em 'Tenor Sans',Georgia,serif" }
   };
   var ORDER = ['coffee', 'barber', 'tattoo', 'detailing', 'photo', 'estate'];
@@ -63,7 +63,7 @@
       home.hidden = false; document.title = baseTitle; current = null;
       jump(homeScroll);
     }
-    Star.setActive(!id);
+    Star.setActive(!id); Relief.setActive(!id);
   }
 
   function go(id, instant) {
@@ -215,6 +215,63 @@
     if (reduce) { canvas.addEventListener('pointermove', kick); addEventListener('pointermove', kick, { passive: true }); }
     kick();
     return api;
+  })();
+
+  /* ---------- рельеф: пунктирная сетка в перспективе, у краёв плавно поднимается ---------- */
+  var Relief = (function () {
+    var list = [], active = true;
+    document.querySelectorAll('.relief canvas').forEach(function (cv) {
+      var ctx = cv.getContext('2d'); if (!ctx) return;
+      var item = { cv: cv, ctx: ctx, vis: false, w: 0, h: 0 };
+      list.push(item);
+      if (window.IntersectionObserver) new IntersectionObserver(function (en) { item.vis = en[0].isIntersecting; kick(); }).observe(cv); else item.vis = true;
+    });
+    var dpr = Math.min(devicePixelRatio || 1, 1.5), raf = 0, last = 0, flow = 0, acc = 0;
+    function size(it) {
+      var w = it.cv.clientWidth, h = it.cv.clientHeight; if (!w || !h) return false;
+      if (w !== it.w || h !== it.h) { it.w = w; it.h = h; it.cv.width = Math.round(w * dpr); it.cv.height = Math.round(h * dpr); it.ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+      return true;
+    }
+    function smooth(e0, e1, x) { var t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); }
+    function height(x, z) { // x от -1 до 1; у краёв холмы, в центре ровно
+      var edge = smooth(.28, 1, Math.abs(x));
+      return edge * edge * (1.25 + .35 * Math.sin(z * .55 + x * 3.1) + .22 * Math.sin(z * 1.3 - x * 7)) ;
+    }
+    function draw(it) {
+      if (!size(it)) return;
+      var c = it.ctx, W = it.w, H = it.h, cols = W < 700 ? 22 : 34, rows = 26, f = H * 1.05, camY = 1.1, horizon = H * .02;
+      c.clearRect(0, 0, W, H); c.lineWidth = 1; c.setLineDash([3, 5]);
+      var dz = .55, zoff = flow % dz, spread = 2.6;
+      function P(xn, z) { var X = xn * spread * (1 + z * .25), y = height(xn, z + flow); return [W / 2 + X * f / (z + 1.2) * .55, horizon + (camY - y * .9 + 1.4) * f / (z + 1.2) * .62]; }
+      // строки (по x), от дальних к ближним
+      for (var r = rows; r >= 0; r--) {
+        var z = r * dz - zoff; if (z < 0) continue;
+        var a = Math.max(0, Math.min(1, 1 - z / (rows * dz))) * .85;
+        c.strokeStyle = 'rgba(217,119,87,' + a.toFixed(3) + ')'; c.beginPath();
+        for (var i = 0; i <= cols; i++) { var p = P(i / cols * 2 - 1, z); if (i) c.lineTo(p[0], p[1]); else c.moveTo(p[0], p[1]); }
+        c.stroke();
+      }
+      // столбцы (по z)
+      for (var k = 0; k <= cols; k++) {
+        var xn = k / cols * 2 - 1, g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(217,119,87,0)'); g.addColorStop(1, 'rgba(255,143,90,.55)');
+        c.strokeStyle = g; c.beginPath();
+        for (var r2 = 0; r2 <= rows; r2++) { var z2 = r2 * dz - zoff; if (z2 < 0) z2 = 0; var q = P(xn, z2); if (r2) c.lineTo(q[0], q[1]); else c.moveTo(q[0], q[1]); }
+        c.stroke();
+      }
+    }
+    function frame(t) {
+      raf = 0; if (!active || document.hidden) return;
+      var dt = Math.min(64, t - (last || t)); last = t; acc += dt;
+      if (acc < 33) { raf = requestAnimationFrame(frame); return; } // ~30 кадров в секунду достаточно
+      if (!reduce) flow += acc * .00018; acc = 0;
+      var any = false; list.forEach(function (it) { if (it.vis) { draw(it); any = true; } });
+      if (any && !reduce) raf = requestAnimationFrame(frame);
+    }
+    function kick() { if (!raf && active) { last = 0; acc = 99; raf = requestAnimationFrame(frame); } }
+    addEventListener('resize', function () { list.forEach(function (it) { it.w = 0; }); kick(); });
+    document.addEventListener('visibilitychange', kick);
+    kick();
+    return { setActive: function (v) { active = v; if (v) { list.forEach(function (it) { it.w = 0; }); kick(); } } };
   })();
 
   route(true);
