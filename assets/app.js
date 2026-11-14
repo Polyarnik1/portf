@@ -98,7 +98,7 @@
     return new Promise(function (res, rej) {
       if (PORTF.sites[id]) return res();
       var s = document.createElement('script');
-      s.src = 'sites/' + id + '.js?v=1794578000';
+      s.src = 'sites/' + id + '.js?v=1794656640';
       s.onload = function () { PORTF.sites[id] ? res() : rej(); };
       s.onerror = rej;
       document.head.appendChild(s);
