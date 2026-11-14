@@ -32,6 +32,8 @@
   var stage = root.querySelector('.cf-stage'), items = [].slice.call(root.querySelectorAll('.cf-item'));
   var pl = root.querySelector('.cf-l'), pr = root.querySelector('.cf-r');
   var ghosts = root.querySelectorAll('.cf-ghost span'), gi = 0;
+  var glows = [document.createElement('div'), document.createElement('div')], gl = 0;
+  glows.forEach(function (g) { g.className = 'cf-glow'; g.setAttribute('aria-hidden', 'true'); root.insertBefore(g, root.firstChild); });
   var tabs = root.querySelector('.cf-tabs'), count = root.querySelector('.cf-count b'), open = root.querySelector('.cf-open');
   var N = items.length, cur = 0, timers = [], auto = null, AUTO_MS = 7000, autoOn = !reduce, inView = false, started = false;
   var ids = items.map(function (it) { return it.querySelector('.portal').dataset.site; });
@@ -69,18 +71,18 @@
   function layout(intro) {
     var m = mq.matches, cw = items[0].offsetWidth || 300;
     items.forEach(function (it, i) {
-      var d = rel(i), a = Math.abs(d), s = d < 0 ? -1 : 1, t, o, f;
+      var d = rel(i), a = Math.abs(d), s = d < 0 ? -1 : 1, t, o, dim;
       if (m) {
-        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; f = 'none'; }
-        else if (a === 1) { t = 'translate3d(' + (s * cw * .8) + 'px,0,-180px) rotateY(' + (-s * 32) + 'deg) scale(.82)'; o = .5; f = 'brightness(.55)'; }
-        else { t = 'translate3d(' + (s * cw * 1.3) + 'px,0,-400px) rotateY(' + (-s * 40) + 'deg) scale(.7)'; o = 0; f = 'brightness(.4)'; }
+        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; dim = 0; }
+        else if (a === 1) { t = 'translate3d(' + (s * cw * .8) + 'px,0,-180px) rotateY(' + (-s * 32) + 'deg) scale(.82)'; o = .5; dim = .45; }
+        else { t = 'translate3d(' + (s * cw * 1.3) + 'px,0,-400px) rotateY(' + (-s * 40) + 'deg) scale(.7)'; o = 0; dim = .6; }
       } else {
-        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; f = 'none'; }
-        else if (a === 1) { t = 'translate3d(' + (s * cw * 1.08) + 'px,0,-260px) rotateY(' + (-s * 34) + 'deg) scale(.86)'; o = .62; f = 'brightness(.55) saturate(.8)'; }
-        else if (a === 2) { t = 'translate3d(' + (s * cw * 1.86) + 'px,0,-520px) rotateY(' + (-s * 44) + 'deg) scale(.74)'; o = .28; f = 'brightness(.4) saturate(.6)'; }
-        else { t = 'translate3d(0,0,-760px) scale(.6)'; o = 0; f = 'brightness(.3)'; }
+        if (a === 0) { t = 'translate3d(0,0,0)'; o = 1; dim = 0; }
+        else if (a === 1) { t = 'translate3d(' + (s * cw * 1.08) + 'px,0,-260px) rotateY(' + (-s * 34) + 'deg) scale(.86)'; o = .62; dim = .45; }
+        else if (a === 2) { t = 'translate3d(' + (s * cw * 1.86) + 'px,0,-520px) rotateY(' + (-s * 44) + 'deg) scale(.74)'; o = .28; dim = .6; }
+        else { t = 'translate3d(0,0,-760px) scale(.6)'; o = 0; dim = .7; }
       }
-      it.style.transform = t; it.style.opacity = o; it.style.filter = f; it.style.zIndex = 10 - a;
+      it.style.transform = t; it.style.opacity = o; it.style.setProperty('--dim', dim); it.style.zIndex = 10 - a;
       it.style.setProperty('--sd', intro ? (a * .09) + 's' : '0s');
       it.classList.toggle('is-on', a === 0);
       it.style.visibility = o === 0 ? 'hidden' : '';
@@ -99,11 +101,12 @@
   function show(first) {
     var id = ids[cur], info = INFO[id];
     root.style.setProperty('--acc', info.acc);
+    var ng = glows[gl]; ng.style.setProperty('--g', info.acc); ng.classList.add('on'); glows[1 - gl].classList.remove('on'); gl = 1 - gl;
     // призрачное название
     var g = ghosts[gi], o = ghosts[1 - gi];
     if (!first) { g.classList.remove('on'); g.classList.add('off'); }
     gi = 1 - gi;
-    o.classList.remove('off'); o.textContent = info.ghost; o.style.fontFamily = info.font; o.style.fontStyle = info.it ? 'italic' : 'normal';
+    o.classList.remove('off'); o.textContent = info.ghost; o.style.setProperty('--ga', info.acc); o.style.fontFamily = info.font; o.style.fontStyle = info.it ? 'italic' : 'normal';
     o.offsetWidth; o.classList.add('on');
     // счётчик и вкладки
     count.textContent = (cur < 9 ? '0' : '') + (cur + 1); count.classList.remove('roll'); count.offsetWidth; count.classList.add('roll');

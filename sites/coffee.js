@@ -25,12 +25,13 @@ css: `
 .c-link{font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-color:var(--berry)}
 .c-actions{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:end;gap:0 clamp(10px,3vw,30px)}
 .c-act-l{display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding-bottom:8px}
-.c-mach{width:min(100%,236px);justify-self:start;cursor:pointer;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 18px 24px rgba(0,0,0,.35))}
+.c-mach{width:min(100%,262px);justify-self:start;cursor:pointer;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 18px 24px rgba(0,0,0,.35))}
 .c-mach svg{display:block;width:100%;height:auto;overflow:visible}
 .c-mach *{animation-duration:9s;animation-iteration-count:infinite;animation-timing-function:linear;transform-box:fill-box}
 .c-mach.paused *{animation-play-state:paused}
 .m-needle{transform-origin:50% 100%;animation-name:m-needle}
-.m-needle{transform-box:view-box;transform-origin:58px 84px}
+.m-needle{transform-box:view-box;transform-origin:168px 108px}
+.m-water{transform-origin:50% 100%;animation-name:m-water}
 .m-lamp{animation-name:m-lamp}.m-lamp-glow{animation-name:m-lamp;transform-origin:50% 50%}
 .m-bean{animation-name:m-bean}.m-hopper{animation-name:m-hop;transform-origin:50% 100%}
 .m-head{animation-name:m-head}
@@ -43,6 +44,7 @@ css: `
 .m-steam-top circle{opacity:.0;animation:m-puff 1.9s ease-out infinite}
 .m-steam-top .p2{animation-delay:.6s}.m-steam-top .p3{animation-delay:1.2s}
 @keyframes m-needle{0%,5%{transform:rotate(-62deg)}15%,66%{transform:rotate(34deg)}70%{transform:rotate(30deg)}80%,100%{transform:rotate(-62deg)}}
+@keyframes m-water{0%,14%{transform:scaleY(1)}62%,100%{transform:scaleY(.9)}}
 @keyframes m-lamp{0%,3%{opacity:.1}5%,66%{opacity:1}69%,100%{opacity:.1}}
 @keyframes m-bean{0%{transform:translateY(0) rotate(0);opacity:0}1%{opacity:1}7%{transform:translateY(20px) rotate(200deg);opacity:1}9%,100%{transform:translateY(24px) rotate(240deg);opacity:0}}
 @keyframes m-hop{0%,4%{transform:none}2%{transform:translateX(-.8px)}3%{transform:translateX(.8px)}6%,100%{transform:none}}
@@ -59,7 +61,7 @@ css: `
   .c-mach *{animation:none!important}
   .m-liquid{transform:scaleY(.92)}.m-crema{opacity:1}.m-lamp,.m-lamp-glow{opacity:1}.m-needle{transform:rotate(20deg)}
 }
-@media(max-width:900px){.c-mach{width:min(100%,196px);justify-self:end}.c-actions{align-items:center}.c-menu-pic{position:relative}}
+@media(max-width:900px){.c-mach{width:min(100%,210px);justify-self:end}.c-actions{align-items:center}.c-menu-pic{position:relative}}
 
 .c-facts{display:flex;gap:28px;margin-top:40px;padding-top:22px;border-top:1px solid #2f5540;flex-wrap:wrap}
 .c-facts b{display:block;font:400 2rem/1 'Yeseva One',serif;color:var(--foam)}
@@ -195,67 +197,71 @@ html: `
     <p>Обжариваем зерно каждую неделю небольшими партиями прямо в зале. Варим эспрессо и фильтр с восьми утра, печём свои круассаны.</p>
     <div class="c-actions"><div class="c-act-l"><button class="c-btn" data-c="c-menu">Открыть меню</button><button class="c-link" data-c="c-brew">Как заварить дома</button></div>
     <div class="c-mach" id="c-mach" role="img" aria-label="Кофемашина наливает эспрессо в стеклянную чашку">
-      <svg viewBox="0 0 220 204" aria-hidden="true">
+      <svg viewBox="0 0 250 204" aria-hidden="true">
         <defs>
-          <linearGradient id="mBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2503c"/><stop offset=".55" stop-color="#c43a2c"/><stop offset="1" stop-color="#8f2519"/></linearGradient>
-          <linearGradient id="mChrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f1e8"/><stop offset=".45" stop-color="#b9b1a4"/><stop offset=".55" stop-color="#8a8277"/><stop offset="1" stop-color="#d9d2c6"/></linearGradient>
+          <linearGradient id="mBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea5a44"/><stop offset=".5" stop-color="#c43a2c"/><stop offset="1" stop-color="#85231a"/></linearGradient>
+          <linearGradient id="mChrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8f3ea"/><stop offset=".45" stop-color="#b9b1a4"/><stop offset=".55" stop-color="#8a8277"/><stop offset="1" stop-color="#dcd5c9"/></linearGradient>
           <linearGradient id="mCoffee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5230"/><stop offset=".3" stop-color="#4a2915"/><stop offset="1" stop-color="#1f0f07"/></linearGradient>
+          <linearGradient id="mWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe6f3"/><stop offset="1" stop-color="#6fb4d0"/></linearGradient>
           <radialGradient id="mGlow"><stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
-          <clipPath id="mCupClip"><path d="M92 143 H128 L123 168 Q122.5 171 119.5 171 H100.5 Q97.5 171 97 168 Z"/></clipPath>
+          <clipPath id="mCupClip"><path d="M88 143 H122 L117 168 Q116.5 171 113.5 171 H96.5 Q93.5 171 93 168 Z"/></clipPath>
         </defs>
-        <ellipse cx="110" cy="198" rx="92" ry="5.5" fill="#000" opacity=".28"/>
+        <ellipse cx="128" cy="199" rx="108" ry="5" fill="#000" opacity=".28"/>
+        <!-- бак с водой сзади -->
+        <rect x="204" y="58" width="30" height="112" rx="11" fill="#cfe6ee" fill-opacity=".14" stroke="#cfe6ee" stroke-opacity=".6" stroke-width="1.6"/>
+        <rect class="m-water" x="207.5" y="68" width="23" height="98" rx="8" fill="url(#mWater)" opacity=".9"/>
+        <rect x="209" y="66" width="3" height="96" rx="1.5" fill="#fff" opacity=".4"/>
         <!-- бункер с зерном -->
         <g class="m-hopper">
-          <path d="M30 34 L36 8 H66 L72 34 Z" fill="#ffffff" fill-opacity=".1" stroke="#cfe3d6" stroke-opacity=".55" stroke-width="1.6" stroke-linejoin="round"/>
-          <g fill="#4a2915"><ellipse cx="44" cy="26" rx="5" ry="3.2" transform="rotate(-20 44 26)"/><ellipse cx="55" cy="27" rx="5" ry="3.2" transform="rotate(15 55 27)"/><ellipse cx="62" cy="22" rx="5" ry="3.2" transform="rotate(-35 62 22)"/><ellipse cx="49" cy="19" rx="5" ry="3.2" transform="rotate(30 49 19)"/><ellipse cx="58" cy="14" rx="5" ry="3.2" transform="rotate(-10 58 14)"/><ellipse cx="45" cy="13" rx="4.4" ry="2.8" transform="rotate(25 45 13)"/></g>
-          <path d="M36 8 H66" stroke="#e9f2ec" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+          <path d="M139 36 L145 8 H181 L187 36 Z" fill="#ffffff" fill-opacity=".1" stroke="#cfe3d6" stroke-opacity=".55" stroke-width="1.6" stroke-linejoin="round"/>
+          <g fill="#4a2915"><ellipse cx="152" cy="28" rx="5.2" ry="3.3" transform="rotate(-20 152 28)"/><ellipse cx="164" cy="29" rx="5.2" ry="3.3" transform="rotate(15 164 29)"/><ellipse cx="175" cy="26" rx="5.2" ry="3.3" transform="rotate(-35 175 26)"/><ellipse cx="157" cy="21" rx="5.2" ry="3.3" transform="rotate(30 157 21)"/><ellipse cx="169" cy="19" rx="5.2" ry="3.3" transform="rotate(-10 169 19)"/><ellipse cx="153" cy="14" rx="4.6" ry="2.9" transform="rotate(25 153 14)"/></g>
+          <path d="M145 8 H181" stroke="#e9f2ec" stroke-width="3" stroke-linecap="round" opacity=".7"/>
         </g>
-        <ellipse class="m-bean" cx="51" cy="36" rx="4.6" ry="3" fill="#4a2915" transform="rotate(20 51 36)"/>
-        <!-- корпус -->
-        <rect x="22" y="44" width="176" height="146" rx="20" fill="url(#mBody)"/>
-        <rect x="30" y="58" width="6" height="118" rx="3" fill="#fff" opacity=".2"/>
-        <rect x="14" y="30" width="192" height="24" rx="12" fill="url(#mChrome)"/>
-        <rect x="26" y="34" width="168" height="3" rx="1.5" fill="#fff" opacity=".7"/>
-        <g class="m-steam-top" fill="#fff"><circle class="p1" cx="176" cy="26" r="4"/><circle class="p2" cx="184" cy="26" r="3.2"/><circle class="p3" cx="170" cy="26" r="3"/></g>
+        <ellipse class="m-bean" cx="163" cy="40" rx="4.6" ry="3" fill="#4a2915" transform="rotate(20 163 40)"/>
+        <!-- обтекаемый корпус -->
+        <path d="M112 176 C106 128 108 92 124 70 C138 50 170 36 198 40 C214 42 218 56 218 74 V176 Z" fill="url(#mBody)"/>
+        <path d="M122 84 C130 62 150 50 176 47" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width="3" stroke-linecap="round"/>
+        <path d="M118 150 C114 122 116 104 124 90" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="5" stroke-linecap="round"/>
+        <path d="M112 176 H218 V186 Q218 190 214 190 H116 Q112 190 112 186 Z" fill="#7f2219"/>
+        <g class="m-steam-top" fill="#fff"><circle class="p1" cx="150" cy="38" r="4"/><circle class="p2" cx="158" cy="38" r="3.2"/><circle class="p3" cx="143" cy="40" r="3"/></g>
         <!-- манометр -->
-        <circle cx="58" cy="84" r="19" fill="url(#mChrome)"/>
-        <circle cx="58" cy="84" r="15" fill="#f6ecd9"/>
-        <circle cx="58" cy="84" r="12" fill="none" stroke="#7c6a58" stroke-width="1.4" stroke-dasharray="1.2 3.6" stroke-linecap="round"/>
-        <path d="M46 92 A14 14 0 0 1 49 76" fill="none" stroke="#c43a2c" stroke-width="2.2" stroke-linecap="round" opacity=".0"/>
-        <g class="m-needle"><line x1="58" y1="84" x2="58" y2="73" stroke="#7f2219" stroke-width="2.2" stroke-linecap="round"/><circle cx="58" cy="84" r="2.6" fill="#2a1810"/></g>
-        <!-- кнопки -->
-        <circle cx="116" cy="76" r="14" fill="url(#mGlow)" class="m-lamp-glow"/>
-        <circle cx="116" cy="76" r="6.5" fill="#3a1d14" stroke="#e9d9bd" stroke-width="1.6"/>
-        <circle class="m-lamp" cx="116" cy="76" r="4" fill="#ffc04d"/>
-        <circle cx="140" cy="76" r="6.5" fill="#3a1d14" stroke="#e9d9bd" stroke-width="1.6"/>
-        <circle cx="164" cy="76" r="6.5" fill="#3a1d14" stroke="#e9d9bd" stroke-width="1.6"/>
-        <rect x="104" y="96" width="70" height="3" rx="1.5" fill="#fff" opacity=".18"/>
-        <!-- ниша -->
-        <rect x="48" y="104" width="124" height="86" rx="12" fill="#2a1712"/>
-        <rect x="48" y="104" width="124" height="14" rx="8" fill="#000" opacity=".28"/>
+        <circle cx="168" cy="108" r="19" fill="url(#mChrome)"/>
+        <circle cx="168" cy="108" r="15" fill="#f6ecd9"/>
+        <circle cx="168" cy="108" r="12" fill="none" stroke="#7c6a58" stroke-width="1.4" stroke-dasharray="1.2 3.6" stroke-linecap="round"/>
+        <g class="m-needle"><line x1="168" y1="108" x2="168" y2="97" stroke="#7f2219" stroke-width="2.2" stroke-linecap="round"/><circle cx="168" cy="108" r="2.6" fill="#2a1810"/></g>
+        <!-- лампа и кнопка -->
+        <circle cx="176" cy="68" r="14" fill="url(#mGlow)" class="m-lamp-glow"/>
+        <circle cx="176" cy="68" r="6.5" fill="#3a1d14" stroke="#e9d9bd" stroke-width="1.6"/>
+        <circle class="m-lamp" cx="176" cy="68" r="4" fill="#ffc04d"/>
+        <circle cx="198" cy="68" r="6.5" fill="#3a1d14" stroke="#e9d9bd" stroke-width="1.6"/>
+        <!-- паровая трубка -->
+        <path d="M216 118 C230 120 238 134 236 156" fill="none" stroke="url(#mChrome)" stroke-width="4.6" stroke-linecap="round"/>
+        <rect x="233.4" y="154" width="5.2" height="9" rx="2" fill="#cfc7ba"/>
+        <!-- группа и рожок -->
         <g class="m-head">
-          <rect x="76" y="94" width="68" height="17" rx="7" fill="url(#mChrome)"/>
-          <path d="M84 111 H136 L131 123 H89 Z" fill="#2c2420"/>
-          <path d="M84 111 H136" stroke="#fff" stroke-opacity=".35" stroke-width="1.4"/>
-          <rect x="132" y="114" width="42" height="8" rx="4" fill="#4a2f22" transform="rotate(-6 132 118)"/>
-          <rect x="136" y="115.2" width="32" height="2" rx="1" fill="#fff" opacity=".25" transform="rotate(-6 132 118)"/>
-          <rect x="100" y="123" width="5" height="7" rx="1.5" fill="#cfc7ba"/><rect x="115" y="123" width="5" height="7" rx="1.5" fill="#cfc7ba"/>
+          <path d="M112 88 H92 Q84 88 84 96 Q84 104 92 104 H112 Z" fill="url(#mChrome)"/>
+          <rect x="88" y="90" width="22" height="2.5" rx="1.2" fill="#fff" opacity=".7"/>
+          <path d="M88 104 H122 L118 116 H92 Z" fill="#2c2420"/>
+          <path d="M88 104 H122" stroke="#fff" stroke-opacity=".35" stroke-width="1.4"/>
+          <rect x="40" y="108" width="54" height="8" rx="4" fill="#4a2f22" transform="rotate(8 94 112)"/>
+          <rect x="46" y="109.4" width="40" height="2" rx="1" fill="#fff" opacity=".25" transform="rotate(8 94 112)"/>
+          <rect x="98" y="116" width="5" height="7" rx="1.5" fill="#cfc7ba"/><rect x="107" y="116" width="5" height="7" rx="1.5" fill="#cfc7ba"/>
         </g>
         <!-- струи -->
-        <rect class="m-stream s1" x="101.2" y="129" width="2.6" height="42" rx="1.3" fill="#5c3319"/>
-        <rect class="m-stream s2" x="116.2" y="129" width="2.6" height="42" rx="1.3" fill="#5c3319"/>
-        <!-- решётка -->
-        <rect x="56" y="171" width="108" height="13" rx="4" fill="#3a2a22"/>
-        <g stroke="#8a8277" stroke-width="1.4" stroke-linecap="round" opacity=".8"><path d="M64 177.5 H156"/></g>
-        <g stroke="#1b0f0a" stroke-width="2" stroke-linecap="round" opacity=".7"><path d="M66 174.6 v5.8 M76 174.6 v5.8 M86 174.6 v5.8 M96 174.6 v5.8 M124 174.6 v5.8 M134 174.6 v5.8 M144 174.6 v5.8 M154 174.6 v5.8"/></g>
+        <rect class="m-stream s1" x="99.2" y="122" width="2.6" height="49" rx="1.3" fill="#5c3319"/>
+        <rect class="m-stream s2" x="108.2" y="122" width="2.6" height="49" rx="1.3" fill="#5c3319"/>
+        <!-- поддон -->
+        <path d="M34 172 H132 Q138 172 138 178 V182 Q138 186 134 186 H38 Q32 186 32 181 V176 Q32 172 34 172 Z" fill="#3a2a22"/>
+        <path d="M40 176.5 H130" stroke="#8a8277" stroke-width="1.4" stroke-linecap="round" opacity=".8"/>
+        <g stroke="#1b0f0a" stroke-width="2" stroke-linecap="round" opacity=".7"><path d="M44 178.4 v4.4 M54 178.4 v4.4 M64 178.4 v4.4 M74 178.4 v4.4 M120 178.4 v4.4 M130 178.4 v4.4"/></g>
         <!-- стеклянная чашка -->
-        <path d="M92 143 H128 L123 168 Q122.5 171 119.5 171 H100.5 Q97.5 171 97 168 Z" fill="#fff" fill-opacity=".1"/>
-        <g clip-path="url(#mCupClip)"><g class="m-liquid"><rect x="90" y="143" width="40" height="30" fill="url(#mCoffee)"/><rect class="m-crema" x="90" y="143" width="40" height="5" fill="#d9a066"/></g></g>
-        <path d="M92 143 H128 L123 168 Q122.5 171 119.5 171 H100.5 Q97.5 171 97 168 Z" fill="none" stroke="#e9f2ec" stroke-opacity=".85" stroke-width="1.6" stroke-linejoin="round"/>
-        <path d="M96 148 L99.5 166" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
-        <ellipse cx="110" cy="143" rx="18" ry="2.6" fill="none" stroke="#e9f2ec" stroke-opacity=".7" stroke-width="1.2"/>
+        <path d="M88 143 H122 L117 168 Q116.5 171 113.5 171 H96.5 Q93.5 171 93 168 Z" fill="#fff" fill-opacity=".1"/>
+        <g clip-path="url(#mCupClip)"><g class="m-liquid"><rect x="84" y="143" width="42" height="30" fill="url(#mCoffee)"/><rect class="m-crema" x="84" y="143" width="42" height="5" fill="#d9a066"/></g></g>
+        <path d="M88 143 H122 L117 168 Q116.5 171 113.5 171 H96.5 Q93.5 171 93 168 Z" fill="none" stroke="#e9f2ec" stroke-opacity=".85" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M92 148 L95.4 166" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="105" cy="143" rx="17" ry="2.6" fill="none" stroke="#e9f2ec" stroke-opacity=".7" stroke-width="1.2"/>
         <!-- пар над чашкой -->
-        <g class="m-steam" fill="none" stroke="#f3e6d0" stroke-width="2.4" stroke-linecap="round"><path class="a" d="M102 136 q-5 -7 0 -13 q5 -6 0 -13"/><path class="b" d="M110 135 q-5 -7 0 -14 q5 -7 0 -15"/><path class="c" d="M118 136 q-5 -7 0 -13 q5 -6 0 -13"/></g>
+        <g class="m-steam" fill="none" stroke="#f3e6d0" stroke-width="2.4" stroke-linecap="round"><path class="a" d="M92 136 q-5 -6 0 -11 q5 -5 0 -10"/><path class="b" d="M105 135 q-5 -6 0 -11 q5 -5 0 -10"/><path class="c" d="M118 136 q-5 -6 0 -11 q5 -5 0 -10"/></g>
       </svg>
     </div></div>
     <div class="c-facts"><div><b>4 дня</b><span>от обжарки до чашки</span></div><div><b>3 сорта</b><span>зерна каждую неделю</span></div><div><b>27 слоёв</b><span>в нашем круассане</span></div></div>
