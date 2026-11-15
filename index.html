@@ -9,7 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23000'/%3E%3Cpath d='M16 3l3 10 10 3-10 3-3 10-3-10-10-3 10-3z' fill='%23D97757'/%3E%3C/svg%3E">
 <script type="importmap">{"imports":{"three":"./car/vendor/three.module.min.js"}}</script>
 <link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/main.css?v=1794609731">
+<link rel="stylesheet" href="assets/main.css?v=1794742694">
 <link rel="stylesheet" href="assets/carousel.css?v=1794657421">
 </head>
 <body>
@@ -158,6 +158,42 @@
       </div>
     </section>
 
+    <section class="block product" id="product">
+      <div class="deco-grid g-right" aria-hidden="true"></div>
+      <div class="prod">
+        <div class="prod-copy">
+          <div class="prod-id">
+            <img src="img/product/bleep.webp" width="64" height="64" alt="Логотип Bleep" loading="lazy" decoding="async">
+            <div><b>Bleep</b><span>мой SaaS-проект</span></div>
+          </div>
+          <h2>Свой продукт: английский без цензуры</h2>
+          <p class="prod-lead">Telegram-мини-приложение для тех, кому скучны учебники: сленг, бытовуха и всё, чего там нет. Придумал, спроектировал и сделал сам, от логики и интерфейса до бота.</p>
+          <ul class="prod-facts">
+            <li><b>400+</b><span>уроков, уровни от A1 до C1</span></li>
+            <li><b>Повторения</b><span>отдельный режим, чтобы слова не забывались</span></li>
+            <li><b>3 дня Premium</b><span>вам и другу за пригласительную ссылку</span></li>
+          </ul>
+          <ul class="prod-chips" aria-label="Что внутри">
+            <li>Mini App в Telegram</li><li>Серия и цель дня</li><li>Озвучка слов</li><li>Premium-доступ</li>
+          </ul>
+          <div class="prod-actions">
+            <a class="btn btn-bleep" href="https://t.me/Bleeplearnbot" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6L2.9 10.8c-.9.4-.9 1.2 0 1.5l4.6 1.5 1.8 5.5c.2.6.9.8 1.4.3l2.6-2.4 4.7 3.5c.6.4 1.4.1 1.6-.7L22.9 4.8c.2-.9-.6-1.6-1.4-1.2zM9.6 14.3l8.2-6.5-6.5 7.6-.3 3.1z"/></svg>
+              Открыть Bleep
+            </a>
+            <a class="btn btn-ghost" href="https://t.me/Polyarnikznak" target="_blank" rel="noopener">Хочу такой же продукт</a>
+          </div>
+          <p class="prod-note">Внутри есть нецензурная лексика: так задумано, это 18+.</p>
+        </div>
+        <div class="prod-stage" id="prodStage" data-mo="zoom">
+          <div class="prod-glow" aria-hidden="true"></div>
+          <figure class="ph ph-side"><div class="ph-in"><img src="img/product/quiz.webp" width="560" height="1040" alt="Bleep: вопрос с вариантами ответа и подсказкой" loading="lazy" decoding="async"></div></figure>
+          <figure class="ph ph-main"><div class="ph-in"><img src="img/product/home.webp" width="560" height="1123" alt="Bleep: главный экран со словом дня, целью дня и маршрутом" loading="lazy" decoding="async"></div></figure>
+          <figure class="ph ph-card"><div class="ph-in"><img src="img/product/lesson.webp" width="560" height="642" alt="Bleep: карточка слова с переводом и примером" loading="lazy" decoding="async"></div></figure>
+        </div>
+      </div>
+    </section>
+
     <section class="block process" id="process">
       <div class="deco-grid g-right" aria-hidden="true"></div>
       <div class="block-head">
@@ -208,7 +244,8 @@
 <div class="veil" id="veil" aria-hidden="true"><span id="veilName"></span></div>
 
 <script src="vendor/three.min.js"></script>
+<script src="assets/product.js?v=1794742694" defer></script>
 <script src="assets/carousel.js?v=1794657421" defer></script>
-<script src="assets/app.js?v=1794657421"></script>
+<script src="assets/app.js?v=1794742694"></script>
 </body>
 </html>
