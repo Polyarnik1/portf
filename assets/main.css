@@ -342,3 +342,12 @@ a{color:inherit}
 .price-bundle .btn-fire{width:100%}
 .price-note{margin-top:20px;color:var(--fog);font-size:15.5px;max-width:52em}
 @media (max-width:899px){.price-bundles{grid-template-columns:1fr}.price-sub{margin-top:30px}}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;gap:34px 56px;align-items:center}
+.about-copy{display:grid;gap:18px;justify-items:start;max-width:34em}
+.about-copy p{color:var(--fog)}
+.about-lead{color:var(--snow)!important;font-size:clamp(1.1rem,1.6vw,1.3rem);line-height:1.5}
+.about-copy .btn{margin-top:6px}
+@media (min-width:900px){.about-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}}
+@media (max-width:899px){.about-facts li{grid-template-columns:1fr}.about-copy .btn{width:100%}}
